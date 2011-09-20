@@ -1,32 +1,21 @@
 package {
 	import d2api.BindsApi;
-	import d2api.ContextMenuApi;
 	import d2api.InventoryApi;
 	import d2api.PlayedCharacterApi;
 	import d2api.StorageApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
-	import d2api.TooltipApi;
 	import d2api.UiApi;
-	import d2components.ButtonContainer;
 	import d2data.ContextMenuData;
 	import d2data.EffectInstance;
 	import d2data.EffectInstanceInteger;
 	import d2data.ItemWrapper;
-	import d2hooks.GameStart;
 	import d2hooks.InventoryContent;
-	import d2hooks.KeyUp;
-	import d2hooks.LeaveDialog;
-	import d2hooks.MapComplementaryInformationsData;
 	import d2hooks.ObjectModified;
 	import d2hooks.OpeningContextMenu;
 	import flash.display.Sprite;
-	import flash.events.TimerEvent;
-	import flash.ui.ContextMenuItem;
-	import flash.utils.describeType;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-	import flash.utils.Timer;
 	import ui.KeyRingUi;
 	
 	/**

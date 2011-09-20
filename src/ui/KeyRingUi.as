@@ -8,19 +8,10 @@ package ui
 	import d2components.ButtonContainer;
 	import d2components.GraphicContainer;
 	import d2components.Grid;
-	import d2components.Label;
-	import d2components.TextArea;
-	import d2components.Texture;
-	import d2data.Effect;
-	import d2data.EffectInstance;
-	import d2data.EffectInstanceInteger;
-	import d2data.EffectsWrapper;
-	import d2data.Item;
 	import d2data.ItemWrapper;
 	import d2enums.ComponentHookList;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
 	
 	/**
 	 * @author Relena
