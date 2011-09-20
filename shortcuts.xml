@@ -1,0 +1,5 @@
+<Shortcuts>
+	<category name="menu">		
+		<shortcut name="openKeyringManager" textfieldEnabled="false">Ouvrir le trousseau de clefs</shortcut>
+    </category>
+</Shortcuts>

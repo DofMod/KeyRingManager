@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <Definition debug="true"> -->
+<Definition>
+
+	<!-- Import d'un template pour creer un bouton simple à partir d'une texture -->
+	<Import url="[config.mod.template]button/iconButton.xml" />
+	
+	<Constants>
+		<!-- Enregistrement des chemins vers les assets d'interface et les css pour les textes -->
+		<Constant name="assets" value="[config.ui.skin]assets.swf|" />
+       	<Constant name="css" value="[config.ui.skin]css/" />
+   	</Constants>
+
+	<!-- Conteneur principal, il permet de placer l'interface à l'endroit souhaité -->
+	<Container name="ctn_main">
+		<Anchors>
+			<Anchor>
+				<AbsDimension x="100" y="100" />
+			</Anchor>
+		</Anchors>
+		
+		<Texture name="tx_background">
+			<Size>
+				<AbsDimension x="500" y="320" />
+			</Size>
+			<uri>[local.assets]tx_generalBackgroundWithTitle</uri>
+			<autoGrid>true</autoGrid>
+		</Texture>
+		
+		<!-- Le titre de la fenêtre -->
+		<Label>
+			<Anchors>
+				<Anchor>
+					<AbsDimension x="20" y="16" />
+				</Anchor>
+			</Anchors>
+			<Size>
+				<AbsDimension x="400" y="37" />
+			</Size>
+			<!--<text>[ui.common.quests]</text>-->
+			<text>Keyring manager</text>
+			<css>[local.css]title.css</css>
+		</Label>
+		
+		<!-- Container a afficher si l'utilisateur possede le trousseau -->
+		<Container name="ctn_grid">
+			<Anchors>
+				<Anchor>
+					<AbsDimension x="20" y="60" />
+				</Anchor>
+			</Anchors>
+				
+			<!-- Texture tx_bg -->
+			<Texture>
+				<Size>
+					<AbsDimension x="440" y="240" />
+				</Size>
+				<uri>[local.assets]tx_blockBackground</uri>
+				<autoGrid>true</autoGrid>
+			</Texture>
+			
+			<Label>
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="20" y="0" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="320" y="30" />
+				</Size>
+				<css>[local.css]normal.css</css>
+				<text>Nom</text>
+				<verticalAlign>center</verticalAlign>
+			</Label>
+			
+			<!-- Grid grid_quests-->
+			<Grid name="grid_keys">
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="0" y="30" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="460" y="180" />
+				</Size>
+				
+				<scrollDisplay>always</scrollDisplay>
+				<rendererName>InlineXmlGridRender</rendererName>
+				<rendererArgs>updateEntry,[colors.grid.line],</rendererArgs>
+				<verticalScrollbarCss>[local.css]scrollBar.css</verticalScrollbarCss>
+				<slotWidth>440</slotWidth>
+				<slotHeight>30</slotHeight>
+
+				<!-- Container decrivant une ligne de la grille -->
+				<Container>
+					<Size>
+						<AbsDimension x="440" y="30" />
+					 </Size>
+					
+					<Label name="name">
+						<Anchors>
+							<Anchor>
+								<AbsDimension x="10" y="0" />
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="335" y="30" />
+						</Size>
+						<css>[local.css]normal.css</css>
+					</Label>
+				
+					<Label name="time">
+						<Anchors>
+							<Anchor>
+								<AbsDimension x="360" y="0" />
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="75" y="30" />
+						</Size>
+						<css>[local.css]normal.css</css>
+						<cssClass>p0</cssClass>
+					</Label>
+					
+					<Texture name="key_present">
+						<Anchors>
+							<Anchor>
+								<AbsDimension x="370" y="0" />
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="50" y="30" />
+						</Size>
+						<uri>[local.assets]state_3</uri>
+					</Texture>
+				</Container>
+			</Grid>
+			
+			<Texture>
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="0" y="-1" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="440" y="242" />
+				</Size>
+				
+				<uri>[local.assets]tx_commonGrid</uri>
+				<autoGrid>true</autoGrid>
+			</Texture>
+			
+			<Texture>
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="350" y="-1" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="2" y="242" />
+				</Size>
+				
+				<uri>[local.assets]fightResult_tx_verticalLine</uri>
+				<autoGrid>true</autoGrid>
+			</Texture>
+		</Container>
+		
+		<!-- Container à afficher si l'utilisateur n'a pas de trousseau -->
+		<Container name="ctn_nokeyring">
+			<Anchors>
+				<Anchor>
+					<AbsDimension x="20" y="70" />
+				</Anchor>
+			</Anchors>
+			
+			<Label>
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="20" y="16" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="420"/>
+				</Size>
+				<!--<text>[ui.common.quests]</text>-->
+				<text>Vous n'avez pas de trousseau.</text>
+				<css>[local.css]normal.css</css>
+				<cssClass>boldcenter</cssClass>
+			</Label>
+			
+			<Label>
+				<Anchors>
+					<Anchor>
+						<AbsDimension x="20" y="60" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="420" y="170" />
+				</Size>
+				<css>[local.css]normal.css</css>
+				<text>Méthode pour l'obtenir :&#10;&#10;¤ Tuer l'un des dopeuls des temples de classe.&#10;¤ Parler au PNJ du temple de classe.&#10;¤ Echanger un Doplon contre le trousseau.</text>
+			</Label>
+			
+			<visible>false</visible>
+		</Container>
+		
+		<!-- Bouton pour fermer cette interface -->
+		<iconButton name="btn_close">
+			<Anchors>
+					<Anchor relativeTo="tx_background" point="TOPRIGHT" relativePoint="TOPRIGHT" />
+			</Anchors>
+			
+			<Size>
+				<AbsDimension x="57" y="36" />
+			</Size>
+			<uri>[local.assets]btn_cornerCross</uri>
+		</iconButton>
+		
+		<!-- Bouton de configuration -->
+		<!-- HACK: on ajout un btn_PlusMinus pour reutilise sont background -->
+		<Texture name="tx_btn_config">
+			<Anchors>
+				<Anchor relativeTo="btn_close">
+					<AbsDimension x="-28" y="0" />
+				</Anchor>
+			</Anchors>
+			<Size>
+				<AbsDimension x="49" y="36" />
+			</Size>
+			<uri>[local.assets]btn_PlusMinus</uri>
+		</Texture>
+		
+		<iconButton name="btn_config">
+			<Anchors>
+				<Anchor relativeTo="tx_btn_config">
+					<AbsDimension x="16" y="8" />
+				</Anchor>
+			</Anchors>
+			<Size>
+				<AbsDimension x="24" y="24" />
+			</Size>
+			<uri>[local.assets]btn_option_square</uri>
+		</iconButton>
+	</Container>
+</Definition>
