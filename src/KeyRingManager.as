@@ -69,7 +69,7 @@ package {
 			
 			uiApi.addShortcutHook("openKeyringManager", onShortcut);
 			
-			modCommon.addOptionItem("module_keyring", "Module - Keyring manager", "c'est nul et ça sert a rien", 91, "KeyRingManager::keyringconfig");
+			modCommon.addOptionItem("module_keyring", "Module - Keyring manager", "c'est nul et ça sert a rien", "KeyRingManager::keyringconfig");
 		}
 		
 		//::////////////////////////////////////////////////////////////////////
