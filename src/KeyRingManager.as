@@ -50,6 +50,7 @@ package {
 		private static const WEEKTIME : Number = 1000 * 60 * 60 * 24 * 7;
 		private static const KEYRINGGID : int = 10207;
 		private static const KEYRINGUI : String = "keyringui";
+		private static const OPEN_SHORTCUT:String = "openKeyringManager";
 		
 		// Properties
 		private var keyring : ItemWrapper;
@@ -67,7 +68,7 @@ package {
 			sysApi.addHook(OpeningContextMenu, onOpeningContextMenu);
 			sysApi.addHook(ObjectModified, onObjectModified);
 			
-			uiApi.addShortcutHook("openKeyringManager", onShortcut);
+			uiApi.addShortcutHook(OPEN_SHORTCUT, onShortcut);
 			
 			modCommon.addOptionItem("module_keyring", "Module - Keyring manager", "c'est nul et ça sert a rien", "KeyRingManager::keyringconfig");
 		}
@@ -206,7 +207,7 @@ package {
 		
 		private function onShortcut(name:String) : Boolean
 		{
-			if (name == "openKeyringManager")
+			if (name == OPEN_SHORTCUT)
 			{
 				openCloseUI();
 				
