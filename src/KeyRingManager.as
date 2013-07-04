@@ -27,7 +27,7 @@ package {
 		//::// Properties
 		//::////////////////////////////////////////////////////////////////////
 		
-		// Force include
+		// Include UI
 		private static var linkages:Array = [KeyRingUi];
 		
 		// APIs
@@ -39,7 +39,7 @@ package {
 		public var timeApi : TimeApi;
 		public var bindApi : BindsApi;
 		
-		// Components
+		// Modules
 		[Module (name="Ankama_ContextMenu")]
 		public var modContextMenu : Object;
 		
