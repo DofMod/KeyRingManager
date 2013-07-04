@@ -222,8 +222,11 @@ package {
 			if (item.objectGID != KEYRINGGID)
 			{
 				sysApi.log(2, "objec modifier != trousseau");
+				
 				return;
-			}else {
+			}
+			else
+			{
 				traceDofus("modification du trousseau");
 			}
 			
@@ -232,8 +235,10 @@ package {
 				var id:int = int(idString);
 				
 				var keyFound:Boolean = false;
-				for each (var effect:EffectInstance in item.effects) {
-					if (effect is EffectInstanceInteger) {
+				for each (var effect:EffectInstance in item.effects)
+				{
+					if (effect is EffectInstanceInteger)
+					{
 						if ((effect as EffectInstanceInteger).value == id)
 						{
 							keyFound = true;
@@ -350,8 +355,11 @@ package {
 							printObj(id, value);
 							
 							continue;
-						}else
+						}
+						else
+						{
 							printObj(id, value);
+						}
 						
 						if (value.present == true)
 						{
