@@ -12,6 +12,8 @@ package ui
 	import d2enums.ComponentHookList;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
+	import types.DataKey;
+	import utils.KeyUtils;
 	
 	/**
 	 * @author Relena
@@ -48,6 +50,10 @@ package ui
 		private static const BANNER_HEIGHT:int = 160;
 		
 		// Proterties
+		private var _ctn_empty:String;
+		private var _ctn_title:String;
+		private var _ctn_key:String;
+		private var _displayedInfos:Array;
 		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
@@ -55,8 +61,14 @@ package ui
 		
 		public function main(params:Object):void
 		{
-			var keyring:ItemWrapper = params.keyring;
-			var keyringKeys:Dictionary = params.keyringKeys;
+			_ctn_empty = uiApi.me().getConstant("emptyName");
+			_ctn_title = uiApi.me().getConstant("titleName");
+			_ctn_key = uiApi.me().getConstant("keyName");
+			_displayedInfos = new Array();
+			
+			initGrid(params.keyring, params.keyringKeys);
+			
+			uiApi.addShortcutHook("closeUi", onShortcut);
 			
 			uiApi.addComponentHook(ctn_main, ComponentHookList.ON_PRESS);
 			uiApi.addComponentHook(btn_close, ComponentHookList.ON_PRESS);
@@ -67,59 +79,42 @@ package ui
 			uiApi.addComponentHook(btn_config, ComponentHookList.ON_RELEASE);
 			
 			uiApi.addComponentHook(ctn_main, ComponentHookList.ON_RELEASE_OUTSIDE);
-			
-			uiApi.addShortcutHook("closeUi", onShortcut);
-			
-			if (keyring == null)
-			{
-				ctn_grid.visible = false;
-				ctn_nokeyring.visible = true;
-			}
-			else
-			{
-				//var keyring:ItemWrapper = inventApi.getItem(keyring.objectUID);
-				var keys:Array = new Array();
-				var key:Object;
-				for (var keyId:String in keyringKeys)
-				{
-					key = new Object();
-					key.time = keyringKeys[keyId].time;
-					key.valid = keyringKeys[keyId].valid;
-					key.present = keyringKeys[keyId].present;
-					key.name = dataApi.getItemWrapper(int(keyId)).name;
-					keys.push(key);
-				}
-				
-				grid_keys.dataProvider = keys;
-			}
 		}
 		
-		public function updateEntry(data:*, componentsRef:*, selected:Boolean):void
+		/**
+		 * Update grid line.
+		 * 
+		 * @param	data	Data associated to the grid line.
+		 * @param	componentsRef	Link to the components of the grid line.
+		 * @param	selected	Is the line selected ?
+		 * @param	param4	(no idea what is that)
+		 */
+		public function updateEntry(data:Object, componentsRef:Object, selected:Boolean, param4:uint) : void
 		{
-			if (data)
+			switch (getLineType(data, param4))
 			{
-				componentsRef.name.text = data.name;
-				
-				if (data.present == true)
-				{
-					componentsRef.key_present.visible = true;
-					componentsRef.time.visible = false;
-				}
-				else
-				{
-					componentsRef.key_present.visible = false;
-					componentsRef.time.visible = true;
+				case _ctn_empty:
+					break;
+				case _ctn_title:
+					componentsRef.lb_title.text = data.label;
 					
-					if (data.valid == false)
+				case _ctn_key:
+					componentsRef.lb_name.text = data.label;
+					
+					if (data.dataKey.present == true)
 					{
-						componentsRef.time.cssClass = "p2";
-					}
-					else
-					{
-						componentsRef.time.cssClass = "p0";
+						componentsRef.tx_present.visible = true;
+						componentsRef.lb_time.visible = false;
+						
+						return;
 					}
 					
-					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.time);
+					componentsRef.tx_present.visible = false;
+					componentsRef.lb_time.visible = true;
+					
+					componentsRef.time.cssClass = data.dataKey.valid ? "p0" : "p2";
+					
+					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.dataKey.time);
 					if (time > DAYTIME)
 					{
 						componentsRef.time.text = (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME) + "jours";
@@ -136,16 +131,29 @@ package ui
 					{
 						componentsRef.time.text = (time % MINUTETIME) + "secondes";
 					}
-				}
+			}
+		}
+		
+		/**
+		 * Select the containe to display in the grid line.
+		 * 
+		 * @param	data	Data of the line (Info).
+		 * @param	param2	(no idea what is that).
+		 * @return	The name of the container use.
+		 */
+		public function getLineType(data:Object, param2:uint):String
+		{
+			if (!data)
+			{
+				return _ctn_empty;
+			}
+			else if (data.isTitle)
+			{
+				return _ctn_title;
 			}
 			else
 			{
-				componentsRef.name.text = "Unknow object.";
-				
-				componentsRef.key_present.visible = false;
-				componentsRef.time_good.visible = false;
-				componentsRef.time_unknow.visible = true;
-				componentsRef.time_unknow.text = "XXX";
+				return _ctn_key;
 			}
 		}
 		
@@ -156,6 +164,32 @@ package ui
 		//::////////////////////////////////////////////////////////////////////
 		//::// Private Methods
 		//::////////////////////////////////////////////////////////////////////
+		
+		private function initGrid(keyring:ItemWrapper, keyringKeys:Dictionary):void
+		{
+			if (keyring == null)
+			{
+				ctn_grid.visible = false;
+				ctn_nokeyring.visible = true;
+				
+				return;
+			}
+			
+			for (var index:int = 0; index < 15; index++)
+			{
+				_displayedInfos.push(new DisplayInfo(index.toString()));
+				
+				for (var keyId:String in keyringKeys)
+				{
+					if (KeyUtils.getKeyGroup(int(keyId)) == index)
+					{
+						_displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, false, keyringKeys[keyId]));
+					}
+				}
+			}
+			
+			grid_keys.dataProvider = _displayedInfos;
+		}
 		
 		private function dragUiStart():void
 		{
@@ -222,5 +256,21 @@ package ui
 				dragUiStop();
 			}
 		}
+	}
+}
+
+import types.DataKey;
+
+class DisplayInfo
+{
+	public var label:String;
+	public var isTitle:Boolean;
+	public var dataKey:DataKey;
+	
+	public function DisplayInfo(label:String, isTitle:Boolean = true, dataKey:DataKey = null)
+	{
+		this.label = label;
+		this.isTitle = isTitle;
+		this.dataKey = dataKey;
 	}
 }
