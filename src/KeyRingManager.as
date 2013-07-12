@@ -1,9 +1,5 @@
 package {
-	import d2api.BindsApi;
 	import d2api.DataApi;
-	import d2api.InventoryApi;
-	import d2api.PlayedCharacterApi;
-	import d2api.StorageApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
 	import d2api.UiApi;
@@ -37,11 +33,6 @@ package {
 		// APIs
 		public var sysApi : SystemApi;
 		public var uiApi : UiApi;
-		public var inventApi : InventoryApi;
-		public var playerApi : PlayedCharacterApi;
-		public var storageApi : StorageApi;
-		public var timeApi : TimeApi;
-		public var bindApi : BindsApi;
 		public var dataApi:DataApi;
 		
 		// Modules
