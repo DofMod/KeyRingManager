@@ -1,6 +1,7 @@
 package
 {
 	import d2api.DataApi;
+	import d2api.StorageApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
 	import d2api.UiApi;
@@ -36,6 +37,7 @@ package
 		public var uiApi:UiApi;
 		public var dataApi:DataApi;
 		public var timeApi:TimeApi;
+		public var storageApi:StorageApi;
 		
 		// Modules
 		[Module(name="Ankama_ContextMenu")]
@@ -65,6 +67,7 @@ package
 		public function main():void
 		{
 			init();
+			initKeyring(storageApi.getViewContent("storageQuest"));
 			
 			sysApi.addHook(InventoryContent, onInventoryContent);
 			sysApi.addHook(OpeningContextMenu, onOpeningContextMenu);
@@ -230,6 +233,11 @@ package
 		}
 		
 		private function onInventoryContent(items:Object, kamas:int):void
+		{
+			initKeyring(items);
+		}
+		
+		private function initKeyring(items:Object):void
 		{
 			if (_keyringInit == true)
 			{
