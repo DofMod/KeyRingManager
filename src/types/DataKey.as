@@ -18,5 +18,10 @@ package types
 			this.present = present;
 			this.valid = valid;
 		}
+		
+		public function toString():String
+		{
+			return "time = " + time + ", present = " + present + ", valid = " + valid; 
+		}
 	}
 }
