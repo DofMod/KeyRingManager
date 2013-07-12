@@ -54,8 +54,8 @@ package {
 		private static const OPEN_SHORTCUT:String = "openKeyringManager";
 		
 		// Properties
-		private var keyring : ItemWrapper;
-		private var keyringKeys : Dictionary;
+		private var _keyring : ItemWrapper;
+		private var _keyringKeys : Dictionary;
 				
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
@@ -80,66 +80,66 @@ package {
 		
 		private function init() : void
 		{
-			keyring = null;
+			_keyring = null;
 
 			// inits the keys
-			keyringKeys = new Dictionary();
-			keyringKeys[1568] = null;
-			keyringKeys[1569] = null;
-			keyringKeys[1570] = null;
-			keyringKeys[6884] = null;
-			keyringKeys[7309] = null;
-			keyringKeys[7310] = null;
-			keyringKeys[7311] = null;
-			keyringKeys[7312] = null;
-			keyringKeys[7511] = null;
-			keyringKeys[7557] = null;
-			keyringKeys[7908] = null;
-			keyringKeys[7918] = null;
-			keyringKeys[7924] = null;
-			keyringKeys[7926] = null;
-			keyringKeys[7927] = null;
-			keyringKeys[8073] = null;
-			keyringKeys[8135] = null;
-			keyringKeys[8139] = null;
-			keyringKeys[8142] = null;
-			keyringKeys[8143] = null;
-			keyringKeys[8156] = null;
-			keyringKeys[8307] = null;
-			keyringKeys[8342] = null;
-			keyringKeys[8343] = null;
-			keyringKeys[8436] = null;
-			keyringKeys[8437] = null;
-			keyringKeys[8438] = null;
-			keyringKeys[8439] = null;
-			keyringKeys[8545] = null;
-			keyringKeys[8917] = null;
-			keyringKeys[8972] = null;
-			keyringKeys[8977] = null;
-			keyringKeys[9247] = null;
-			keyringKeys[9248] = null;
-			keyringKeys[9254] = null;
-			keyringKeys[8320] = null;
-			keyringKeys[8329] = null;
-			keyringKeys[8971] = null;
-			keyringKeys[8975] = null;
-			keyringKeys[8432] = null;
-			keyringKeys[11175] = null;
-			keyringKeys[11174] = null;
-			keyringKeys[11176] = null;
-			keyringKeys[11177] = null;
-			keyringKeys[11178] = null;
-			keyringKeys[11179] = null;
-			keyringKeys[11180] = null;
-			keyringKeys[11181] = null;
-			keyringKeys[11798] = null;
-			keyringKeys[11799] = null;
-			keyringKeys[12017] = null;
-			keyringKeys[12073] = null;
-			keyringKeys[12152] = null;
-			keyringKeys[12151] = null;
-			keyringKeys[12150] = null;
-			keyringKeys[12351] = null;
+			_keyringKeys = new Dictionary();
+			_keyringKeys[1568] = null;
+			_keyringKeys[1569] = null;
+			_keyringKeys[1570] = null;
+			_keyringKeys[6884] = null;
+			_keyringKeys[7309] = null;
+			_keyringKeys[7310] = null;
+			_keyringKeys[7311] = null;
+			_keyringKeys[7312] = null;
+			_keyringKeys[7511] = null;
+			_keyringKeys[7557] = null;
+			_keyringKeys[7908] = null;
+			_keyringKeys[7918] = null;
+			_keyringKeys[7924] = null;
+			_keyringKeys[7926] = null;
+			_keyringKeys[7927] = null;
+			_keyringKeys[8073] = null;
+			_keyringKeys[8135] = null;
+			_keyringKeys[8139] = null;
+			_keyringKeys[8142] = null;
+			_keyringKeys[8143] = null;
+			_keyringKeys[8156] = null;
+			_keyringKeys[8307] = null;
+			_keyringKeys[8342] = null;
+			_keyringKeys[8343] = null;
+			_keyringKeys[8436] = null;
+			_keyringKeys[8437] = null;
+			_keyringKeys[8438] = null;
+			_keyringKeys[8439] = null;
+			_keyringKeys[8545] = null;
+			_keyringKeys[8917] = null;
+			_keyringKeys[8972] = null;
+			_keyringKeys[8977] = null;
+			_keyringKeys[9247] = null;
+			_keyringKeys[9248] = null;
+			_keyringKeys[9254] = null;
+			_keyringKeys[8320] = null;
+			_keyringKeys[8329] = null;
+			_keyringKeys[8971] = null;
+			_keyringKeys[8975] = null;
+			_keyringKeys[8432] = null;
+			_keyringKeys[11175] = null;
+			_keyringKeys[11174] = null;
+			_keyringKeys[11176] = null;
+			_keyringKeys[11177] = null;
+			_keyringKeys[11178] = null;
+			_keyringKeys[11179] = null;
+			_keyringKeys[11180] = null;
+			_keyringKeys[11181] = null;
+			_keyringKeys[11798] = null;
+			_keyringKeys[11799] = null;
+			_keyringKeys[12017] = null;
+			_keyringKeys[12073] = null;
+			_keyringKeys[12152] = null;
+			_keyringKeys[12151] = null;
+			_keyringKeys[12150] = null;
+			_keyringKeys[12351] = null;
 		}
 		
 		private function appToItemModule(data:ContextMenuData, ...items) : void
@@ -178,8 +178,8 @@ package {
 			if (uiApi.getUi(KEYRINGUI) == null)
 			{
 				var params:Object = new Object();
-				params.keyring = keyring;
-				params.keyringKeys = keyringKeys;
+				params.keyring = _keyring;
+				params.keyringKeys = _keyringKeys;
 				
 				uiApi.loadUi(KEYRINGUI, KEYRINGUI, params);
 			}
@@ -231,7 +231,7 @@ package {
 				traceDofus("modification du trousseau");
 			}
 			
-			for (var idString:String in keyringKeys)
+			for (var idString:String in _keyringKeys)
 			{
 				var id:int = int(idString);
 				
@@ -250,29 +250,29 @@ package {
 					
 				if (keyFound == true)
 				{
-					if (keyringKeys[idString].present == false)
+					if (_keyringKeys[idString].present == false)
 					{
 						traceDofus("clef a reaparu: " + idString);
 						
-						keyringKeys[idString].time += WEEKTIME;
-						keyringKeys[idString].valid = true;
-						keyringKeys[idString].present = true;
+						_keyringKeys[idString].time += WEEKTIME;
+						_keyringKeys[idString].valid = true;
+						_keyringKeys[idString].present = true;
 						
-						sysApi.setData("key" + idString, keyringKeys[idString]);
+						sysApi.setData("key" + idString, _keyringKeys[idString]);
 					}
 					
 					continue;
 				}
 				
-				if (keyringKeys[idString].present == true)
+				if (_keyringKeys[idString].present == true)
 				{
 					traceDofus("clef supprimé: " + idString);
 					
-					keyringKeys[idString].time = timeApi.getTimestamp();
-					keyringKeys[idString].valid = true;
-					keyringKeys[idString].present = false;
+					_keyringKeys[idString].time = timeApi.getTimestamp();
+					_keyringKeys[idString].valid = true;
+					_keyringKeys[idString].present = false;
 					
-					sysApi.setData("key" + idString, keyringKeys[idString]);
+					sysApi.setData("key" + idString, _keyringKeys[idString]);
 				}
 			}
 		}
@@ -299,21 +299,21 @@ package {
 		
 		private function onInventoryContent(items:Object, kamas:int) : void
 		{
-			if (keyring == null)
+			if (_keyring == null)
 			{
-				keyring = findKeyring(items);
+				_keyring = findKeyring(items);
 				
-				if (keyring != null)
+				if (_keyring != null)
 				{
 					var timestamp : Number = timeApi.getTimestamp();
 					var value : Object;
 					var id : int;
-					for (var idString:String in keyringKeys)
+					for (var idString:String in _keyringKeys)
 					{
 						id = int(idString);
 						
 						var keyFound : Boolean = false;
-						for each(var effect:EffectInstance in keyring.effects)
+						for each(var effect:EffectInstance in _keyring.effects)
 						{
 							if (effect is EffectInstanceInteger)
 							{
@@ -342,7 +342,7 @@ package {
 							
 							sysApi.setData("key" + idString, value);
 							
-							keyringKeys[idString] = value;
+							_keyringKeys[idString] = value;
 							
 							printObj(id, value);
 							
@@ -365,7 +365,7 @@ package {
 								sysApi.setData("key" + idString, value);
 							}
 							
-							keyringKeys[idString] = value;
+							_keyringKeys[idString] = value;
 							
 							continue
 						}
@@ -396,23 +396,23 @@ package {
 							sysApi.setData("key" + idString, value);
 						}
 						
-						keyringKeys[idString] = value;
+						_keyringKeys[idString] = value;
 					}
 				}
 			}
 			
 			// Debug
-			if (keyring != null)
+			if (_keyring != null)
 			{
-				for each (var e:EffectInstance in keyring.effects)
+				for each (var e:EffectInstance in _keyring.effects)
 				{
 					if (e is EffectInstanceInteger)
 					{
 						var eInt:EffectInstanceInteger =
 								e as EffectInstanceInteger;
-						if (keyringKeys[eInt.value] === undefined)
+						if (_keyringKeys[eInt.value] === undefined)
 						{
-							sysApi.log(2, "!!!New keys : " + eInt.value + " / " + keyringKeys[eInt.value]);
+							sysApi.log(2, "!!!New keys : " + eInt.value + " / " + _keyringKeys[eInt.value]);
 						}
 					}
 				}
