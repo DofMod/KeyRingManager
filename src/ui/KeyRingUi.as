@@ -1,7 +1,6 @@
 package ui
 {
 	import d2api.DataApi;
-	import d2api.InventoryApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
 	import d2api.UiApi;
@@ -12,7 +11,6 @@ package ui
 	import d2enums.ComponentHookList;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
-	import types.DataKey;
 	import utils.KeyUtils;
 	
 	/**
@@ -27,7 +25,6 @@ package ui
 		// APIs
 		public var sysApi:SystemApi
 		public var uiApi:UiApi;
-		public var inventApi:InventoryApi;
 		public var dataApi:DataApi;
 		public var timeApi:TimeApi;
 		
@@ -258,8 +255,8 @@ package ui
 		}
 	}
 }
-
 import types.DataKey;
+
 
 class DisplayInfo
 {
