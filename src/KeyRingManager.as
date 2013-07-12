@@ -16,6 +16,7 @@ package {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
+	import ui.KeyRingConfig;
 	import ui.KeyRingUi;
 	
 	/**
@@ -28,7 +29,7 @@ package {
 		//::////////////////////////////////////////////////////////////////////
 		
 		// Include UI
-		private static var linkages:Array = [KeyRingUi];
+		private static var linkages:Array = [KeyRingUi, KeyRingConfig];
 		
 		// APIs
 		public var sysApi : SystemApi;
