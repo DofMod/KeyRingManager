@@ -1,5 +1,6 @@
 package {
 	import d2api.BindsApi;
+	import d2api.DataApi;
 	import d2api.InventoryApi;
 	import d2api.PlayedCharacterApi;
 	import d2api.StorageApi;
@@ -9,6 +10,7 @@ package {
 	import d2data.ContextMenuData;
 	import d2data.EffectInstance;
 	import d2data.EffectInstanceInteger;
+	import d2data.Item;
 	import d2data.ItemWrapper;
 	import d2hooks.InventoryContent;
 	import d2hooks.ObjectModified;
@@ -16,6 +18,7 @@ package {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
+	import types.DataKey;
 	import ui.KeyRingConfig;
 	import ui.KeyRingUi;
 	
@@ -39,6 +42,7 @@ package {
 		public var storageApi : StorageApi;
 		public var timeApi : TimeApi;
 		public var bindApi : BindsApi;
+		public var dataApi:DataApi;
 		
 		// Modules
 		[Module (name="Ankama_ContextMenu")]
@@ -50,10 +54,14 @@ package {
 		// Constants
 		private static const WEEKTIME : Number = 1000 * 60 * 60 * 24 * 7;
 		private static const KEYRINGGID : int = 10207;
+		private static const KEY_TYPEID:int = 84;
+		private static const KEY_EFFECTID:int = 814;
+		private static const CONFIG_PREFIX:String = "key_";
 		private static const KEYRINGUI : String = "keyringui";
 		private static const OPEN_SHORTCUT:String = "openKeyringManager";
 		
 		// Properties
+		private var _keyringInit:Boolean;
 		private var _keyring : ItemWrapper;
 		private var _keyringKeys : Dictionary;
 				
@@ -80,66 +88,9 @@ package {
 		
 		private function init() : void
 		{
+			_keyringInit = false;
 			_keyring = null;
-
-			// inits the keys
 			_keyringKeys = new Dictionary();
-			_keyringKeys[1568] = null;
-			_keyringKeys[1569] = null;
-			_keyringKeys[1570] = null;
-			_keyringKeys[6884] = null;
-			_keyringKeys[7309] = null;
-			_keyringKeys[7310] = null;
-			_keyringKeys[7311] = null;
-			_keyringKeys[7312] = null;
-			_keyringKeys[7511] = null;
-			_keyringKeys[7557] = null;
-			_keyringKeys[7908] = null;
-			_keyringKeys[7918] = null;
-			_keyringKeys[7924] = null;
-			_keyringKeys[7926] = null;
-			_keyringKeys[7927] = null;
-			_keyringKeys[8073] = null;
-			_keyringKeys[8135] = null;
-			_keyringKeys[8139] = null;
-			_keyringKeys[8142] = null;
-			_keyringKeys[8143] = null;
-			_keyringKeys[8156] = null;
-			_keyringKeys[8307] = null;
-			_keyringKeys[8342] = null;
-			_keyringKeys[8343] = null;
-			_keyringKeys[8436] = null;
-			_keyringKeys[8437] = null;
-			_keyringKeys[8438] = null;
-			_keyringKeys[8439] = null;
-			_keyringKeys[8545] = null;
-			_keyringKeys[8917] = null;
-			_keyringKeys[8972] = null;
-			_keyringKeys[8977] = null;
-			_keyringKeys[9247] = null;
-			_keyringKeys[9248] = null;
-			_keyringKeys[9254] = null;
-			_keyringKeys[8320] = null;
-			_keyringKeys[8329] = null;
-			_keyringKeys[8971] = null;
-			_keyringKeys[8975] = null;
-			_keyringKeys[8432] = null;
-			_keyringKeys[11175] = null;
-			_keyringKeys[11174] = null;
-			_keyringKeys[11176] = null;
-			_keyringKeys[11177] = null;
-			_keyringKeys[11178] = null;
-			_keyringKeys[11179] = null;
-			_keyringKeys[11180] = null;
-			_keyringKeys[11181] = null;
-			_keyringKeys[11798] = null;
-			_keyringKeys[11799] = null;
-			_keyringKeys[12017] = null;
-			_keyringKeys[12073] = null;
-			_keyringKeys[12152] = null;
-			_keyringKeys[12151] = null;
-			_keyringKeys[12150] = null;
-			_keyringKeys[12351] = null;
 		}
 		
 		private function appToItemModule(data:ContextMenuData, ...items) : void
@@ -222,13 +173,7 @@ package {
 		{
 			if (item.objectGID != KEYRINGGID)
 			{
-				sysApi.log(2, "objec modifier != trousseau");
-				
 				return;
-			}
-			else
-			{
-				traceDofus("modification du trousseau");
 			}
 			
 			for (var idString:String in _keyringKeys)
@@ -238,7 +183,7 @@ package {
 				var keyFound:Boolean = false;
 				for each (var effect:EffectInstance in item.effects)
 				{
-					if (effect is EffectInstanceInteger)
+					if (effect.effectId == KEY_EFFECTID)
 					{
 						if ((effect as EffectInstanceInteger).value == id)
 						{
@@ -252,13 +197,11 @@ package {
 				{
 					if (_keyringKeys[idString].present == false)
 					{
-						traceDofus("clef a reaparu: " + idString);
-						
 						_keyringKeys[idString].time += WEEKTIME;
 						_keyringKeys[idString].valid = true;
 						_keyringKeys[idString].present = true;
 						
-						sysApi.setData("key" + idString, _keyringKeys[idString]);
+						sysApi.setData(CONFIG_PREFIX + idString, _keyringKeys[idString]);
 					}
 					
 					continue;
@@ -266,13 +209,11 @@ package {
 				
 				if (_keyringKeys[idString].present == true)
 				{
-					traceDofus("clef supprimé: " + idString);
-					
 					_keyringKeys[idString].time = timeApi.getTimestamp();
 					_keyringKeys[idString].valid = true;
 					_keyringKeys[idString].present = false;
 					
-					sysApi.setData("key" + idString, _keyringKeys[idString]);
+					sysApi.setData(CONFIG_PREFIX + idString, _keyringKeys[idString]);
 				}
 			}
 		}
@@ -299,136 +240,114 @@ package {
 		
 		private function onInventoryContent(items:Object, kamas:int) : void
 		{
+			if (_keyringInit == true)
+			{
+				return;
+			}
+			
+			_keyring = findKeyring(items);
+				
 			if (_keyring == null)
 			{
-				_keyring = findKeyring(items);
-				
-				if (_keyring != null)
+				return;
+			}
+			
+			_keyringInit = true;
+			
+			var keysId:Object = dataApi.queryEquals(Item, "typeId", KEY_TYPEID);
+			var timestamp:Number = timeApi.getTimestamp();
+			var dataKey:DataKey = null;
+			var dataKeySave:Object = null;
+			
+			for each (var keyId:int in keysId)
+			{
+				var keyFound:Boolean = false;
+				for each(var effect:EffectInstance in _keyring.effects)
 				{
-					var timestamp : Number = timeApi.getTimestamp();
-					var value : Object;
-					var id : int;
-					for (var idString:String in _keyringKeys)
+					if (effect.effectId == KEY_EFFECTID)
 					{
-						id = int(idString);
-						
-						var keyFound : Boolean = false;
-						for each(var effect:EffectInstance in _keyring.effects)
+						if ((effect as EffectInstanceInteger).value == keyId)
 						{
-							if (effect is EffectInstanceInteger)
-							{
-								if ((effect as EffectInstanceInteger).value == id)
-								{
-									keyFound = true;
-									break;
-								}
-							}
+							keyFound = true;
+							
+							break;
 						}
-						
-						value = sysApi.getData("key" + idString);
-						/*
-						 * value : Object
-						 * value.time : int        // last time update
-						 * value.valid : boolean   // is time value valid ?
-						 * value.present : boolean // key present
-						 */
-						
-						if(value == null)
-						{
-							value = new Object();
-							value.time = timestamp;
-							value.valid = false;
-							value.present = keyFound;
-							
-							sysApi.setData("key" + idString, value);
-							
-							_keyringKeys[idString] = value;
-							
-							printObj(id, value);
-							
-							continue;
-						}
-						else
-						{
-							printObj(id, value);
-						}
-						
-						if (value.present == true)
-						{
-							if (keyFound == false)
-							{
-								traceDofus("le module a ete etein");
-								value.time = timestamp;
-								value.valid = false;
-								value.present = false;
-							
-								sysApi.setData("key" + idString, value);
-							}
-							
-							_keyringKeys[idString] = value;
-							
-							continue
-						}
-						
-						if (keyFound == true)
-						{
-							traceDofus("la clef deviens valide");
-							if (value.valid == true)
-							{
-								value.time += WEEKTIME;
-							}
-							else
-							{
-								value.time == timestamp;
-							}
-							
-							value.present = true;
-							
-							sysApi.setData("key" + idString, value);
-						}
-						else if (value.time + WEEKTIME < timestamp)
-						{
-							traceDofus("update time");
-							value.time = timestamp;
-							value.valid = false;
-							value.present = false;
-							
-							sysApi.setData("key" + idString, value);
-						}
-						
-						_keyringKeys[idString] = value;
 					}
 				}
+				
+				dataKeySave = sysApi.getData(CONFIG_PREFIX + keyId);
+				
+				// The key is unknow, save a new timestamp
+				if(dataKeySave == null)
+				{
+					dataKey = new DataKey(timestamp, false, keyFound);
+					
+					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+					
+					_keyringKeys[keyId] = dataKey;
+					
+					continue;
+				}
+				else
+				{
+					dataKey = new DataKey(dataKeySave.timestamp, dataKeySave.valid, dataKeySave.present);
+				}
+				
+				if (dataKey.present == true)
+				{
+					if (keyFound == false)
+					{
+						dataKey.time = timestamp;
+						dataKey.valid = false;
+						dataKey.present = false;
+					
+						sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+					}
+					
+					_keyringKeys[keyId] = dataKey;
+					
+					continue
+				}
+				
+				if (keyFound == true)
+				{
+					if (dataKey.valid == true)
+					{
+						dataKey.time += WEEKTIME;
+					}
+					else
+					{
+						dataKey.time == timestamp;
+					}
+					
+					dataKey.present = true;
+					
+					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+				}
+				else if (dataKey.time + WEEKTIME < timestamp)
+				{
+					dataKey.time = timestamp;
+					dataKey.valid = false;
+					dataKey.present = false;
+					
+					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+				}
+				
+				_keyringKeys[keyId] = dataKey;
 			}
 			
 			// Debug
-			if (_keyring != null)
+			for each (var e:EffectInstance in _keyring.effects)
 			{
-				for each (var e:EffectInstance in _keyring.effects)
+				if (e.effectId == KEY_EFFECTID)
 				{
-					if (e is EffectInstanceInteger)
+					var effectValue:int = (e as EffectInstanceInteger).value;
+					if (_keyringKeys[effectValue] === undefined)
 					{
-						var eInt:EffectInstanceInteger =
-								e as EffectInstanceInteger;
-						if (_keyringKeys[eInt.value] === undefined)
-						{
-							sysApi.log(2, "!!!New keys : " + eInt.value + " / " + _keyringKeys[eInt.value]);
-						}
+						sysApi.log(4, "[KeyRingManager] Unknow key : " + effectValue);
 					}
 				}
 			}
-		}
-			
-		// a supprimer
-		
-		private function traceDofus(str:String) : void
-		{
-			sysApi.log(2, str);
-		}
-		
-		private function printObj(val:int, obj:Object):void
-		{
-			traceDofus("[" + val + "] time: " + obj.time + " valid: " + obj.valid + " present: " + obj.present);
 		}
 	}
 }
