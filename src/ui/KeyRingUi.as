@@ -9,6 +9,7 @@ package ui
 	import d2components.Grid;
 	import d2data.ItemWrapper;
 	import d2enums.ComponentHookList;
+	import enums.AreaIdEnum;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import utils.KeyUtils;
@@ -45,6 +46,7 @@ package ui
 		private static const DAYTIME:Number = HOURTIME * 24;
 		private static const WEEKTIME:Number = DAYTIME * 7;
 		private static const BANNER_HEIGHT:int = 160;
+		private static const DEFAULT_AREA:int = -1;
 		
 		// Proterties
 		private var _ctn_empty:String;
@@ -52,6 +54,7 @@ package ui
 		private var _ctn_key:String;
 		private var _keyring:ItemWrapper;
 		private var _keyringKeys:Dictionary;
+		private var _selectedArea:int;
 		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
@@ -65,6 +68,7 @@ package ui
 			
 			_keyring = params.keyring;
 			_keyringKeys = params.keyringKeys;
+			_selectedArea = DEFAULT_AREA;
 			
 			initGrid(_keyring, _keyringKeys);
 			
@@ -97,6 +101,11 @@ package ui
 					break;
 				case _ctn_title:
 					componentsRef.lb_title.text = data.label;
+					
+					componentsRef.btn_title.value = data.areaId;
+					
+					uiApi.addComponentHook(componentsRef.btn_title, ComponentHookList.ON_PRESS); // Hack to disable the drag/drop
+					uiApi.addComponentHook(componentsRef.btn_title, ComponentHookList.ON_RELEASE);
 					
 					break;
 				case _ctn_key:
@@ -179,7 +188,7 @@ package ui
 			var displayedInfos:Array = [];
 			for each (var areaId:int in KeyUtils.getDungeonAreas())
 			{
-				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? "Others" : dataApi.getArea(areaId).name));
+				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? "Others" : dataApi.getArea(areaId).name, areaId));
 				
 				if (areaId == selectedAreaId)
 				{
@@ -187,7 +196,7 @@ package ui
 					{
 						if (KeyUtils.getDungeonArea(int(keyId)) == areaId)
 						{
-							displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, false, keyringKeys[keyId]));
+							displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, -1, keyringKeys[keyId]));
 						}
 					}
 				}
@@ -240,17 +249,29 @@ package ui
 		
 		public function onRelease(target:Object):void
 		{
-			if (target == btn_close)
+			switch (target)
 			{
-				uiApi.unloadUi(uiApi.me().name);
-			}
-			else if (target == btn_config)
-			{
-				modCommon.openOptionMenu(false, "module_keyring");
-			}
-			else if (target == ctn_main)
-			{
-				dragUiStop();
+				case btn_close:
+					uiApi.unloadUi(uiApi.me().name);
+					
+					break;
+				case btn_config:
+					modCommon.openOptionMenu(false, "module_keyring");
+					
+					break;
+				case ctn_main:
+					dragUiStop();
+					
+					break;
+				default:
+					if (target.name.indexOf("btn_title") != -1)
+					{
+						_selectedArea = (target.value == _selectedArea) ? DEFAULT_AREA : target.value;
+						
+						initGrid(_keyring, _keyringKeys, _selectedArea);
+					}
+					
+					break;
 			}
 		}
 		
@@ -271,11 +292,13 @@ class DisplayInfo
 	public var label:String;
 	public var isTitle:Boolean;
 	public var dataKey:DataKey;
+	public var areaId:int;
 	
-	public function DisplayInfo(label:String, isTitle:Boolean = true, dataKey:DataKey = null)
+	public function DisplayInfo(label:String, areaId:int = -1, dataKey:DataKey = null)
 	{
 		this.label = label;
-		this.isTitle = isTitle;
+		this.isTitle = areaId != -1;
 		this.dataKey = dataKey;
+		this.areaId = areaId;
 	}
 }

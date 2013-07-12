@@ -100,7 +100,7 @@
 						<AbsDimension x="440" y="30" />
 					 </Size>
 
-					<Texture name="tx_title">
+					<iconButton name="btn_title">
 						<Size>
 							<AbsDimension x="440"
 										  y="30" />
@@ -108,7 +108,7 @@
 						
 						<autoGrid>true</autoGrid>
 						<uri>[local.assets]tx_bgSubTitle</uri>
-					</Texture>
+					</iconButton>
 					
 					<Label name="lb_title">
 						<Anchors>
