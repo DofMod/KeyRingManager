@@ -35,6 +35,7 @@ package
 		public var sysApi:SystemApi;
 		public var uiApi:UiApi;
 		public var dataApi:DataApi;
+		public var timeApi:TimeApi;
 		
 		// Modules
 		[Module(name="Ankama_ContextMenu")]
