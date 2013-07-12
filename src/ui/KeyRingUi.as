@@ -95,6 +95,7 @@ package ui
 				case _ctn_title:
 					componentsRef.lb_title.text = data.label;
 					
+					break;
 				case _ctn_key:
 					componentsRef.lb_name.text = data.label;
 					
@@ -109,24 +110,24 @@ package ui
 					componentsRef.tx_present.visible = false;
 					componentsRef.lb_time.visible = true;
 					
-					componentsRef.time.cssClass = data.dataKey.valid ? "p0" : "p2";
+					componentsRef.lb_time.cssClass = data.dataKey.valid ? "p0" : "p2";
 					
 					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.dataKey.time);
 					if (time > DAYTIME)
 					{
-						componentsRef.time.text = (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME) + "jours";
+						componentsRef.lb_time.text = (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME) + "jours";
 					}
 					else if (time > HOURTIME)
 					{
-						componentsRef.time.text = (((time - (time % HOURTIME)) + HOURTIME) / HOURTIME) + "heurs";
+						componentsRef.lb_time.text = (((time - (time % HOURTIME)) + HOURTIME) / HOURTIME) + "heurs";
 					}
 					else if (time > MINUTETIME)
 					{
-						componentsRef.time.text = (((time - (time % MINUTETIME)) + MINUTETIME) / MINUTETIME) + "minutes";
+						componentsRef.lb_time.text = (((time - (time % MINUTETIME)) + MINUTETIME) / MINUTETIME) + "minutes";
 					}
 					else
 					{
-						componentsRef.time.text = (time % MINUTETIME) + "secondes";
+						componentsRef.lb_time.text = (time % MINUTETIME) + "secondes";
 					}
 			}
 		}
