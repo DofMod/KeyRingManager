@@ -10,6 +10,8 @@ package utils
 	 */
 	public class KeyUtils
 	{
+		public static const NO_AREA:int = -666;
+		
 		public static function cantBeOnKeyring(keyId:int):Boolean
 		{
 			switch (keyId)
@@ -118,7 +120,7 @@ package utils
 				case ItemIdEnum.BONTA_RAT_DUNGEON_KEY: // Bonta
 				case ItemIdEnum.BRAKMAR_RAT_DUNGEON_KEY: // Brakmar
 				case ItemIdEnum.KANNIBALL_DUNGEON_KEY: // Moon
-					return -1;
+					return NO_AREA;
 			}
 			
 			return -1;
@@ -126,7 +128,7 @@ package utils
 		
 		public static function getDungeonAreas():Array
 		{
-			return [ -1, AreaIdEnum.AMAKNA, AreaIdEnum.ASTRUB,
+			return [ NO_AREA, AreaIdEnum.AMAKNA, AreaIdEnum.ASTRUB,
 					AreaIdEnum.CANIA_PLAINS, AreaIdEnum.FRIGOST_ISLAND,
 					AreaIdEnum.KOALAK_MOUNTAIN, AreaIdEnum.KWISMAS_ISLAND,
 					AreaIdEnum.MINOTOROR_ISLAND, AreaIdEnum.OTOMAI_ISLAND,

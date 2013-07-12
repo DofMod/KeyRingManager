@@ -50,7 +50,8 @@ package ui
 		private var _ctn_empty:String;
 		private var _ctn_title:String;
 		private var _ctn_key:String;
-		private var _displayedInfos:Array;
+		private var _keyring:ItemWrapper;
+		private var _keyringKeys:Dictionary;
 		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
@@ -61,9 +62,11 @@ package ui
 			_ctn_empty = uiApi.me().getConstant("emptyName");
 			_ctn_title = uiApi.me().getConstant("titleName");
 			_ctn_key = uiApi.me().getConstant("keyName");
-			_displayedInfos = new Array();
 			
-			initGrid(params.keyring, params.keyringKeys);
+			_keyring = params.keyring;
+			_keyringKeys = params.keyringKeys;
+			
+			initGrid(_keyring, _keyringKeys);
 			
 			uiApi.addShortcutHook("closeUi", onShortcut);
 			
@@ -163,7 +166,7 @@ package ui
 		//::// Private Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function initGrid(keyring:ItemWrapper, keyringKeys:Dictionary):void
+		private function initGrid(keyring:ItemWrapper, keyringKeys:Dictionary, selectedAreaId:int = -1):void
 		{
 			if (keyring == null)
 			{
@@ -173,20 +176,24 @@ package ui
 				return;
 			}
 			
-			for each (var groupId:int in KeyUtils.getDungeonAreas())
+			var displayedInfos:Array = [];
+			for each (var areaId:int in KeyUtils.getDungeonAreas())
 			{
-				_displayedInfos.push(new DisplayInfo(groupId == -1 ? "Others" : dataApi.getArea(groupId).name));
+				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? "Others" : dataApi.getArea(areaId).name));
 				
-				for (var keyId:String in keyringKeys)
+				if (areaId == selectedAreaId)
 				{
-					if (KeyUtils.getDungeonArea(int(keyId)) == groupId)
+					for (var keyId:String in keyringKeys)
 					{
-						_displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, false, keyringKeys[keyId]));
+						if (KeyUtils.getDungeonArea(int(keyId)) == areaId)
+						{
+							displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, false, keyringKeys[keyId]));
+						}
 					}
 				}
 			}
 			
-			grid_keys.dataProvider = _displayedInfos;
+			grid_keys.dataProvider = displayedInfos;
 		}
 		
 		private function dragUiStart():void
