@@ -45,6 +45,7 @@ package ui
 		private static const HOURTIME:Number = MINUTETIME * 60;
 		private static const DAYTIME:Number = HOURTIME * 24;
 		private static const WEEKTIME:Number = DAYTIME * 7;
+		private static const BANNER_HEIGHT:int = 160;
 		
 		// Proterties
 		
@@ -164,7 +165,7 @@ package ui
 							0,
 							0,
 							uiApi.getStageWidth() - this.ctn_main.width,
-							uiApi.getStageHeight() - this.ctn_main.height - 160
+							uiApi.getStageHeight() - this.ctn_main.height - BANNER_HEIGHT
 							)
 					);
 		}
