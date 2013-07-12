@@ -291,7 +291,7 @@ package
 				}
 				else
 				{
-					dataKey = new DataKey(dataKeySave.timestamp, dataKeySave.valid, dataKeySave.present);
+					dataKey = new DataKey(dataKeySave.time, dataKeySave.valid, dataKeySave.present);
 				}
 				
 				if (dataKey.present == true)
