@@ -23,28 +23,28 @@ package ui
 		//::////////////////////////////////////////////////////////////////////
 		
 		// APIs
-		public var sysApi : SystemApi
-		public var uiApi : UiApi;
-		public var inventApi : InventoryApi;
-		public var dataApi : DataApi;
-		public var timeApi : TimeApi;
+		public var sysApi:SystemApi
+		public var uiApi:UiApi;
+		public var inventApi:InventoryApi;
+		public var dataApi:DataApi;
+		public var timeApi:TimeApi;
 		
 		// Components
-		public var btn_close : ButtonContainer;
-		public var btn_config : ButtonContainer;
-		public var grid_keys : Grid;
-		public var ctn_grid : GraphicContainer;
-		public var ctn_main : GraphicContainer;
-		public var ctn_nokeyring : GraphicContainer;
+		public var btn_close:ButtonContainer;
+		public var btn_config:ButtonContainer;
+		public var grid_keys:Grid;
+		public var ctn_grid:GraphicContainer;
+		public var ctn_main:GraphicContainer;
+		public var ctn_nokeyring:GraphicContainer;
 		
-		[Module (name="Ankama_Common")]
-		public var modCommon : Object;
+		[Module(name="Ankama_Common")]
+		public var modCommon:Object;
 		
 		// Constants
-		private static const MINUTETIME : Number = 1000 * 60;
-		private static const HOURTIME : Number = MINUTETIME * 60;
-		private static const DAYTIME : Number = HOURTIME * 24;
-		private static const WEEKTIME : Number = DAYTIME * 7;
+		private static const MINUTETIME:Number = 1000 * 60;
+		private static const HOURTIME:Number = MINUTETIME * 60;
+		private static const DAYTIME:Number = HOURTIME * 24;
+		private static const WEEKTIME:Number = DAYTIME * 7;
 		
 		// Proterties
 		
@@ -52,7 +52,7 @@ package ui
 		//::// Public Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		public function main(params:Object) : void
+		public function main(params:Object):void
 		{
 			var keyring:ItemWrapper = params.keyring;
 			var keyringKeys:Dictionary = params.keyringKeys;
@@ -88,14 +88,14 @@ package ui
 					key.name = dataApi.getItemWrapper(int(keyId)).name;
 					keys.push(key);
 				}
-			
+				
 				grid_keys.dataProvider = keys;
 			}
 		}
 		
-		public function updateEntry(data : *, componentsRef : *, selected : Boolean) : void
+		public function updateEntry(data:*, componentsRef:*, selected:Boolean):void
 		{
-			if(data)
+			if (data)
 			{
 				componentsRef.name.text = data.name;
 				
@@ -109,7 +109,7 @@ package ui
 					componentsRef.key_present.visible = false;
 					componentsRef.time.visible = true;
 					
-					if(data.valid == false)
+					if (data.valid == false)
 					{
 						componentsRef.time.cssClass = "p2";
 					}
@@ -119,7 +119,7 @@ package ui
 					}
 					
 					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.time);
-					if(time > DAYTIME)
+					if (time > DAYTIME)
 					{
 						componentsRef.time.text = (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME) + "jours";
 					}
@@ -148,7 +148,7 @@ package ui
 			}
 		}
 		
-		public function unload() : void
+		public function unload():void
 		{
 		}
 		
@@ -156,7 +156,7 @@ package ui
 		//::// Private Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function dragUiStart() : void
+		private function dragUiStart():void
 		{
 			ctn_main.startDrag(
 					false,
@@ -164,11 +164,12 @@ package ui
 							0,
 							0,
 							uiApi.getStageWidth() - this.ctn_main.width,
-							uiApi.getStageHeight() - this.ctn_main.height - 160)
+							uiApi.getStageHeight() - this.ctn_main.height - 160
+							)
 					);
 		}
 		
-		private function dragUiStop() : void
+		private function dragUiStop():void
 		{
 			ctn_main.stopDrag();
 		}
@@ -177,7 +178,7 @@ package ui
 		//::// Events
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function onShortcut(name:String) : Boolean
+		private function onShortcut(name:String):Boolean
 		{
 			if (name == "closeUi")
 			{
@@ -189,7 +190,7 @@ package ui
 			return false;
 		}
 		
-		public function onPress(target : Object) : void
+		public function onPress(target:Object):void
 		{
 			if (target == ctn_main)
 			{
@@ -197,7 +198,7 @@ package ui
 			}
 		}
 		
-		public function onRelease(target:Object) : void
+		public function onRelease(target:Object):void
 		{
 			if (target == btn_close)
 			{
@@ -213,7 +214,7 @@ package ui
 			}
 		}
 		
-		public function onReleaseOutside(target:Object) :  void
+		public function onReleaseOutside(target:Object):void
 		{
 			if (target == ctn_main)
 			{
