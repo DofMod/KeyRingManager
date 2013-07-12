@@ -25,7 +25,7 @@
 		
 		<Texture name="tx_background">
 			<Size>
-				<AbsDimension x="500" y="320" />
+				<AbsDimension x="500" y="350" />
 			</Size>
 			<uri>[local.assets]tx_generalBackgroundWithTitle</uri>
 			<autoGrid>true</autoGrid>
@@ -46,23 +46,78 @@
 			<css>[local.css]title.css</css>
 		</Label>
 		
-		<!-- Container a afficher si l'utilisateur possede le trousseau -->
-		<Container name="ctn_grid">
+		<Container name="ctn_search">
 			<Anchors>
 				<Anchor>
 					<AbsDimension x="20" y="60" />
 				</Anchor>
 			</Anchors>
+
+			<Texture name="tx_bg_search">
+				<Size>
+					<AbsDimension x="440" y="30" />
+				</Size>
 				
-			<!-- Texture tx_bg -->
+				<uri>[local.assets]tx_blockBackground</uri>
+				<autoGrid>true</autoGrid>
+			</Texture>
+
 			<Texture>
+				<Anchors> 
+					<Anchor>
+						<AbsDimension x="10" y="3" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="395" y="25" />
+				</Size>
+				
+				<autoGrid>true</autoGrid>
+				<uri>[local.assets]tx_inputBackgroundDark</uri>
+			</Texture>
+
+			<Input name="inp_search">
+				<Anchors> 
+					<Anchor>
+						<AbsDimension x="10" y="3" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="395" y="25" />
+				</Size>
+				
+				<css>[local.css]normal.css</css>
+			</Input>
+			 
+			 <iconButton name="btn_search">
+				<Anchors> 
+					<Anchor>
+						<AbsDimension x="405" y="3" />
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="25" y="25" />
+				</Size>
+				
+				<checkBox>true</checkBox>
+				<uri>[local.assets]btn_recherche</uri>
+			</iconButton>
+		</Container>
+		
+		<!-- Container a afficher si l'utilisateur possede le trousseau -->
+		<Container name="ctn_grid">
+			<Anchors>
+				<Anchor relativeTo="ctn_search" point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+			</Anchors>
+
+			<Texture name="tx_bg_grid">
 				<Size>
 					<AbsDimension x="440" y="240" />
 				</Size>
 				<uri>[local.assets]tx_blockBackground</uri>
 				<autoGrid>true</autoGrid>
 			</Texture>
-			
+
 			<Label>
 				<Anchors>
 					<Anchor>
@@ -203,7 +258,7 @@
 		<Container name="ctn_nokeyring">
 			<Anchors>
 				<Anchor>
-					<AbsDimension x="20" y="70" />
+					<AbsDimension x="20" y="85" />
 				</Anchor>
 			</Anchors>
 			
