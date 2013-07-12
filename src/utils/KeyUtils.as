@@ -1,7 +1,7 @@
 package utils
 {
+	import enums.AreaIdEnum;
 	import enums.ItemIdEnum;
-	import enums.KeyGroup;
 	
 	/**
 	 * Keys utils.
@@ -30,7 +30,7 @@ package utils
 			return false;
 		}
 		
-		public static function getKeyGroup(keyId:int):int
+		public static function getDungeonArea(keyId:int):int
 		{
 			switch (keyId)
 			{
@@ -47,7 +47,7 @@ package utils
 				case ItemIdEnum.KLIME_S_PRIVATE_SUITE_KEY:
 				case ItemIdEnum.NILEZA_S_LABORATORY_KEY:
 				case ItemIdEnum.COUNT_HAREBOURG_S_DUNGEON_KEY:
-					return KeyGroup.FRIGOST;
+					return AreaIdEnum.FRIGOST_ISLAND;
 					
 				case ItemIdEnum.SECRET_ROYAL_TOFU_HOUSE_KEY:
 				case ItemIdEnum.BLACKSMITH_DUNGEON_KEY:
@@ -63,54 +63,54 @@ package utils
 				case ItemIdEnum.KEY_TO_THE_KWAKWA_S_NEST:
 				case ItemIdEnum.DREGGONS__SANCTUARY_KEY:
 				case ItemIdEnum.DREGGON_DUNGEON_KEY:
-					return KeyGroup.AMAKNA;
+					return AreaIdEnum.AMAKNA;
 					
 				case ItemIdEnum.PANDIKAZE_DUNGEON_KEY:
 				case ItemIdEnum.KITSOUNE_DUNGEON_KEY:
 				case ItemIdEnum.BULB_DUNGEON_KEY:
 				case ItemIdEnum.FIREFOUX_DUNGEON_KEY:
 				case ItemIdEnum.DAGGERO_S_LAIR_KEY:
-					return KeyGroup.PANDALA;
+					return AreaIdEnum.PANDALA_DUNGEON;
 					
 				case ItemIdEnum.LORD_CROW_S_LIBRARY_KEY:
 				case ItemIdEnum.CANIDAE_DUNGEON_KEY:
 				case ItemIdEnum.BLOP_DUNGEON_KEY:
 				case ItemIdEnum.RAINBOW_BLOP_LAIR_KEY:
 				case ItemIdEnum.HAUNTED_HOUSE_KEY:
-					return KeyGroup.CANIA;
+					return AreaIdEnum.CANIA_PLAINS;
 					
 				case ItemIdEnum.GROTTO_HESQUE_KEY:
 				case ItemIdEnum.OTOMAI_S_ARK_KEY:
 				case ItemIdEnum.BHERB_S_GULLY_KEY:
 				case ItemIdEnum.TYNRIL_LAB_KEY:
 				case ItemIdEnum.KIMBO_S_CANOPY_KEY:
-					return KeyGroup.OTOMAI;
+					return AreaIdEnum.OTOMAI_ISLAND;
 					
 				case ItemIdEnum.KEY_TO_BRUMEN_TINCTORIAS_S_LABORATORY:
 				case ItemIdEnum.FUNGUS_DUNGEON_KEY:
 				case ItemIdEnum.BWORKER_DUNGEON_KEY:
-					return KeyGroup.SIDIMOTE;
+					return AreaIdEnum.SIDIMOTE_MOORS;
 					
 				case ItemIdEnum.TREECHNID_DUNGEON_KEY:
 				case ItemIdEnum.SOFT_OAK_DUNGEON_KEY:
-					return KeyGroup.TREECHNID;
+					return AreaIdEnum.TREECHNID_FOREST;
 					
 				case ItemIdEnum.SKEUNK_S_HIDEOUT_KEY:
 				case ItemIdEnum.KOOLICH_CAVERN_KEY:
-					return KeyGroup.KOALAK;
+					return AreaIdEnum.KOALAK_MOUNTAIN;
 					
 				case ItemIdEnum.LABYRINTH_OF_THE_MINOTOROR_KEY:
 				case ItemIdEnum.MINOTOT_ROOM_KEY:
-					return KeyGroup.MINOTOROR;
+					return AreaIdEnum.MINOTOROR_ISLAND;
 					
 				case ItemIdEnum.SAND_DUNGEON_KEY:
 				case ItemIdEnum.FIELD_DUNGEON_KEY:
-					return KeyGroup.ASTRUB;
+					return AreaIdEnum.ASTRUB;
 					
 				case ItemIdEnum.KWISMAS_DUNGEON_KEY:
 				case ItemIdEnum.KWISMAS_CAVERN_KEY:
 				case ItemIdEnum.FATHER_KWISMAS_S_HOUSE_KEY:
-					return KeyGroup.KWISMAS;
+					return AreaIdEnum.KWISMAS_ISLAND;
 					
 				case ItemIdEnum.GOBBALL_DUNGEON_KEY: // Tainela
 				case ItemIdEnum.INCARNAM_DUNGEON_KEY: // Incarnam
@@ -118,10 +118,20 @@ package utils
 				case ItemIdEnum.BONTA_RAT_DUNGEON_KEY: // Bonta
 				case ItemIdEnum.BRAKMAR_RAT_DUNGEON_KEY: // Brakmar
 				case ItemIdEnum.KANNIBALL_DUNGEON_KEY: // Moon
-					return KeyGroup.OTHER;
+					return -1;
 			}
 			
-			return KeyGroup.OTHER;
+			return -1;
+		}
+		
+		public static function getDungeonAreas():Array
+		{
+			return [ -1, AreaIdEnum.AMAKNA, AreaIdEnum.ASTRUB,
+					AreaIdEnum.CANIA_PLAINS, AreaIdEnum.FRIGOST_ISLAND,
+					AreaIdEnum.KOALAK_MOUNTAIN, AreaIdEnum.KWISMAS_ISLAND,
+					AreaIdEnum.MINOTOROR_ISLAND, AreaIdEnum.OTOMAI_ISLAND,
+					AreaIdEnum.PANDALA_DUNGEON, AreaIdEnum.SIDIMOTE_MOORS,
+					AreaIdEnum.TREECHNID_FOREST];
 		}
 	}
 }

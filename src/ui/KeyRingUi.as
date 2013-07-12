@@ -173,13 +173,13 @@ package ui
 				return;
 			}
 			
-			for (var index:int = 0; index < 15; index++)
+			for each (var groupId:int in KeyUtils.getDungeonAreas())
 			{
-				_displayedInfos.push(new DisplayInfo(index.toString()));
+				_displayedInfos.push(new DisplayInfo(groupId == -1 ? "Others" : dataApi.getArea(groupId).name));
 				
 				for (var keyId:String in keyringKeys)
 				{
-					if (KeyUtils.getKeyGroup(int(keyId)) == index)
+					if (KeyUtils.getDungeonArea(int(keyId)) == groupId)
 					{
 						_displayedInfos.push(new DisplayInfo(dataApi.getItemWrapper(int(keyId)).name, false, keyringKeys[keyId]));
 					}
