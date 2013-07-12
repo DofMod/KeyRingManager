@@ -10,6 +10,7 @@ package ui
 	import d2data.ItemWrapper;
 	import d2enums.ComponentHookList;
 	import enums.AreaIdEnum;
+	import enums.ConfigEnum;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import utils.KeyUtils;
@@ -69,6 +70,13 @@ package ui
 			_keyring = params.keyring;
 			_keyringKeys = params.keyringKeys;
 			_selectedArea = DEFAULT_AREA;
+			
+			var position:Array = sysApi.getData(ConfigEnum.POSITION);
+			if (position)
+			{
+				ctn_main.x = position[0];
+				ctn_main.y = position[1];
+			}
 			
 			initGrid(_keyring, _keyringKeys);
 			
@@ -262,6 +270,8 @@ package ui
 				case ctn_main:
 					dragUiStop();
 					
+					sysApi.setData(ConfigEnum.POSITION, [ctn_main.x, ctn_main.y]);
+					
 					break;
 				default:
 					if (target.name.indexOf("btn_title") != -1)
@@ -280,6 +290,8 @@ package ui
 			if (target == ctn_main)
 			{
 				dragUiStop();
+				
+				sysApi.setData(ConfigEnum.POSITION, [ctn_main.x, ctn_main.y]);
 			}
 		}
 	}
