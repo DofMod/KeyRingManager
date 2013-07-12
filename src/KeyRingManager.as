@@ -24,6 +24,7 @@ package
 	import types.DataKey;
 	import ui.KeyRingConfig;
 	import ui.KeyRingUi;
+	import utils.KeyUtils;
 	
 	/**
 	 * @author Relena
@@ -262,6 +263,11 @@ package
 			
 			for each (var keyId:int in keysId)
 			{
+				if (KeyUtils.cantBeOnKeyring(keyId))
+				{
+					continue;
+				}
+				
 				var keyFound:Boolean = false;
 				for each (var effect:EffectInstance in _keyring.effects)
 				{
