@@ -1,4 +1,5 @@
-package {
+package
+{
 	import d2api.DataApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
@@ -31,36 +32,36 @@ package {
 		private static var linkages:Array = [KeyRingUi, KeyRingConfig];
 		
 		// APIs
-		public var sysApi : SystemApi;
-		public var uiApi : UiApi;
+		public var sysApi:SystemApi;
+		public var uiApi:UiApi;
 		public var dataApi:DataApi;
 		
 		// Modules
-		[Module (name="Ankama_ContextMenu")]
-		public var modContextMenu : Object;
+		[Module(name="Ankama_ContextMenu")]
+		public var modContextMenu:Object;
 		
-		[Module (name="Ankama_Common")]
-		public var modCommon : Object;
+		[Module(name="Ankama_Common")]
+		public var modCommon:Object;
 		
 		// Constants
-		private static const WEEKTIME : Number = 1000 * 60 * 60 * 24 * 7;
-		private static const KEYRINGGID : int = 10207;
+		private static const WEEKTIME:Number = 1000 * 60 * 60 * 24 * 7;
+		private static const KEYRINGGID:int = 10207;
 		private static const KEY_TYPEID:int = 84;
 		private static const KEY_EFFECTID:int = 814;
 		private static const CONFIG_PREFIX:String = "key_";
-		private static const KEYRINGUI : String = "keyringui";
+		private static const KEYRINGUI:String = "keyringui";
 		private static const OPEN_SHORTCUT:String = "openKeyringManager";
 		
 		// Properties
 		private var _keyringInit:Boolean;
-		private var _keyring : ItemWrapper;
-		private var _keyringKeys : Dictionary;
-				
+		private var _keyring:ItemWrapper;
+		private var _keyringKeys:Dictionary;
+		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		public function main() : void
+		public function main():void
 		{
 			init();
 			
@@ -77,21 +78,20 @@ package {
 		//::// Private Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function init() : void
+		private function init():void
 		{
 			_keyringInit = false;
 			_keyring = null;
 			_keyringKeys = new Dictionary();
 		}
 		
-		private function appToItemModule(data:ContextMenuData, ...items) : void
+		private function appToItemModule(data:ContextMenuData, ... items):void
 		{
 			var itemModule:* = null;
 			
-			for each(var item:* in data.content)
+			for each (var item:*in data.content)
 			{
-				if (getQualifiedClassName(item) ==
-						"contextMenu::ContextMenuItem")
+				if (getQualifiedClassName(item) == "contextMenu::ContextMenuItem")
 				{
 					if (item.label == "Modules")
 					{
@@ -100,22 +100,21 @@ package {
 					}
 				}
 			}
-					
+			
 			if (itemModule == null)
 			{
-				itemModule = modContextMenu.createContextMenuItemObject(
-						"Modules",  	// Item label
-						null,			// No callback
-						null,			// No callback arguments
-						false,			// Item enable
-						new Array());	// Create empty subitems list
+				itemModule = modContextMenu.createContextMenuItemObject("Modules", // Item label
+					null, // No callback
+					null, // No callback arguments
+					false, // Item enable
+					new Array()); // Create empty subitems list
 				data.content.push(itemModule);
 			}
 			
 			itemModule.child = itemModule.child.concat(items);
 		}
 		
-		private function openCloseUI() : void
+		private function openCloseUI():void
 		{
 			if (uiApi.getUi(KEYRINGUI) == null)
 			{
@@ -131,7 +130,7 @@ package {
 			}
 		}
 		
-		private function findKeyring(items:Object) : ItemWrapper
+		private function findKeyring(items:Object):ItemWrapper
 		{
 			for each (var item:ItemWrapper in items)
 			{
@@ -148,7 +147,7 @@ package {
 		//::// Events
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function onShortcut(name:String) : Boolean
+		private function onShortcut(name:String):Boolean
 		{
 			if (name == OPEN_SHORTCUT)
 			{
@@ -160,7 +159,7 @@ package {
 			return false;
 		}
 		
-		private function onObjectModified(item:ItemWrapper) : void
+		private function onObjectModified(item:ItemWrapper):void
 		{
 			if (item.objectGID != KEYRINGGID)
 			{
@@ -179,11 +178,12 @@ package {
 						if ((effect as EffectInstanceInteger).value == id)
 						{
 							keyFound = true;
+							
 							break;
 						}
 					}
 				}
-					
+				
 				if (keyFound == true)
 				{
 					if (_keyringKeys[idString].present == false)
@@ -209,27 +209,26 @@ package {
 			}
 		}
 		
-		private function onOpeningContextMenu(data:Object) : void
+		private function onOpeningContextMenu(data:Object):void
 		{
-			if(data && (data is ContextMenuData))
+			if (data && (data is ContextMenuData))
 			{
 				var menuData:ContextMenuData = data as ContextMenuData;
-				if(menuData.makerName == "world")
+				if (menuData.makerName == "world")
 				{
-					var newItem1:* = modContextMenu.createContextMenuItemObject(
-							"Keyring manager",					// Item label
-							openCloseUI,						// Callback
-							null,								// Callback args
-							false,								// Is disabled ?
-							null,								// Children
-							(uiApi.getUi(KEYRINGUI) != null));	// Is checked ?
+					var newItem1:* = modContextMenu.createContextMenuItemObject("Keyring manager", // Item label
+						openCloseUI, // Callback
+						null, // Callback args
+						false, // Is disabled ?
+						null, // Children
+						(uiApi.getUi(KEYRINGUI) != null)); // Is checked ?
 					
 					appToItemModule(menuData, newItem1);
 				}
 			}
 		}
 		
-		private function onInventoryContent(items:Object, kamas:int) : void
+		private function onInventoryContent(items:Object, kamas:int):void
 		{
 			if (_keyringInit == true)
 			{
@@ -237,7 +236,7 @@ package {
 			}
 			
 			_keyring = findKeyring(items);
-				
+			
 			if (_keyring == null)
 			{
 				return;
@@ -253,7 +252,7 @@ package {
 			for each (var keyId:int in keysId)
 			{
 				var keyFound:Boolean = false;
-				for each(var effect:EffectInstance in _keyring.effects)
+				for each (var effect:EffectInstance in _keyring.effects)
 				{
 					if (effect.effectId == KEY_EFFECTID)
 					{
@@ -269,7 +268,7 @@ package {
 				dataKeySave = sysApi.getData(CONFIG_PREFIX + keyId);
 				
 				// The key is unknow, save a new timestamp
-				if(dataKeySave == null)
+				if (dataKeySave == null)
 				{
 					dataKey = new DataKey(timestamp, false, keyFound);
 					
@@ -291,7 +290,7 @@ package {
 						dataKey.time = timestamp;
 						dataKey.valid = false;
 						dataKey.present = false;
-					
+						
 						sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
 					}
 					
