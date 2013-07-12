@@ -13,6 +13,11 @@ package
 	import d2hooks.InventoryContent;
 	import d2hooks.ObjectModified;
 	import d2hooks.OpeningContextMenu;
+	import enums.EffectIdEnum;
+	import enums.ItemIdEnum;
+	import enums.ItemTypeIdEnum;
+	import enums.MenuMakerEnum;
+	import enums.ViewContentEnum;
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
@@ -48,9 +53,6 @@ package
 		
 		// Constants
 		private static const WEEKTIME:Number = 1000 * 60 * 60 * 24 * 7;
-		private static const KEYRINGGID:int = 10207;
-		private static const KEY_TYPEID:int = 84;
-		private static const KEY_EFFECTID:int = 814;
 		private static const CONFIG_PREFIX:String = "key_";
 		private static const KEYRINGUI:String = "keyringui";
 		private static const OPEN_SHORTCUT:String = "openKeyringManager";
@@ -67,7 +69,7 @@ package
 		public function main():void
 		{
 			init();
-			initKeyring(storageApi.getViewContent("storageQuest"));
+			initKeyring(storageApi.getViewContent(ViewContentEnum.STORAGE_QUEST));
 			
 			sysApi.addHook(InventoryContent, onInventoryContent);
 			sysApi.addHook(OpeningContextMenu, onOpeningContextMenu);
@@ -138,7 +140,7 @@ package
 		{
 			for each (var item:ItemWrapper in items)
 			{
-				if (item.objectGID == KEYRINGGID)
+				if (item.objectGID == ItemIdEnum.KEYRING)
 				{
 					return item;
 				}
@@ -165,7 +167,7 @@ package
 		
 		private function onObjectModified(item:ItemWrapper):void
 		{
-			if (item.objectGID != KEYRINGGID)
+			if (item.objectGID != ItemIdEnum.KEYRING)
 			{
 				return;
 			}
@@ -177,7 +179,7 @@ package
 				var keyFound:Boolean = false;
 				for each (var effect:EffectInstance in item.effects)
 				{
-					if (effect.effectId == KEY_EFFECTID)
+					if (effect.effectId == EffectIdEnum.KEY)
 					{
 						if ((effect as EffectInstanceInteger).value == id)
 						{
@@ -218,7 +220,7 @@ package
 			if (data && (data is ContextMenuData))
 			{
 				var menuData:ContextMenuData = data as ContextMenuData;
-				if (menuData.makerName == "world")
+				if (menuData.makerName == MenuMakerEnum.WORLD)
 				{
 					var newItem1:* = modContextMenu.createContextMenuItemObject("Keyring manager", // Item label
 						openCloseUI, // Callback
@@ -253,7 +255,7 @@ package
 			
 			_keyringInit = true;
 			
-			var keysId:Object = dataApi.queryEquals(Item, "typeId", KEY_TYPEID);
+			var keysId:Object = dataApi.queryEquals(Item, "typeId", ItemTypeIdEnum.KEY);
 			var timestamp:Number = timeApi.getTimestamp();
 			var dataKey:DataKey = null;
 			var dataKeySave:Object = null;
@@ -263,7 +265,7 @@ package
 				var keyFound:Boolean = false;
 				for each (var effect:EffectInstance in _keyring.effects)
 				{
-					if (effect.effectId == KEY_EFFECTID)
+					if (effect.effectId == EffectIdEnum.KEY)
 					{
 						if ((effect as EffectInstanceInteger).value == keyId)
 						{
@@ -338,7 +340,7 @@ package
 			// Debug
 			for each (var e:EffectInstance in _keyring.effects)
 			{
-				if (e.effectId == KEY_EFFECTID)
+				if (e.effectId == EffectIdEnum.KEY)
 				{
 					var effectValue:int = (e as EffectInstanceInteger).value;
 					if (_keyringKeys[effectValue] === undefined)
