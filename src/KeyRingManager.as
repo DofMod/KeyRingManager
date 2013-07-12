@@ -279,9 +279,10 @@ package {
 		
 		private function onOpeningContextMenu(data:Object) : void
 		{
-			if(data && !(data is Array))
+			if(data && (data is ContextMenuData))
 			{
-				if(data.makerName == "world")
+				var menuData:ContextMenuData = data as ContextMenuData;
+				if(menuData.makerName == "world")
 				{
 					var newItem1:* = modContextMenu.createContextMenuItemObject(
 							"Keyring manager",					// Item label
@@ -291,18 +292,8 @@ package {
 							null,								// Children
 							(uiApi.getUi(KEYRINGUI) != null));	// Is checked ?
 					
-					appToItemModule(
-						(data as ContextMenuData),
-						newItem1);
+					appToItemModule(menuData, newItem1);
 				}
-				else
-				{
-					sysApi.log(2, "makerName : " + data.makerName);
-				}
-			}
-			else
-			{
-				sysApi.log(2, "Array menu not supported");
 			}
 		}
 		
