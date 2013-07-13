@@ -16,8 +16,11 @@ Download + Compile:
 -------------------
 
 1. Install Git
-2. git clone https://github.com/Dofus/KeyRingManager.git
-3. mxmlc -output KeyRingManager.swf -compiler.library-path+=./modules-library.swc -source-path src -keep-as3-metadata Api Module DevMode -- src/KeyRingManager.as
+2. git clone --recursive https://github.com/Dofus/KeyRingManager.git
+3. cd KeyRingManager/dmUtils
+4. compile library (see README)
+5. cd ..
+6. mxmlc -output KeyRingManager.swf -compiler.library-path+=./modules-library.swc -compiler.library-path+=./dmUtils/dmUtils.swc -source-path src -keep-as3-metadata Api Module DevMode -- src/KeyRingManager.as
 
 Installation:
 -------------
