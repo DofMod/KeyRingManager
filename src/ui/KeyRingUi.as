@@ -10,6 +10,7 @@ package ui
 	import d2components.Input;
 	import d2data.ItemWrapper;
 	import d2enums.ComponentHookList;
+	import d2enums.LocationEnum;
 	import d2hooks.KeyUp;
 	import enums.AreaIdEnum;
 	import enums.ConfigEnum;
@@ -138,6 +139,9 @@ package ui
 					{
 						componentsRef.tx_present.visible = true;
 						componentsRef.lb_time.visible = false;
+						
+						uiApi.addComponentHook(componentsRef.tx_present, ComponentHookList.ON_ROLL_OVER);
+						uiApi.addComponentHook(componentsRef.tx_present, ComponentHookList.ON_ROLL_OUT);
 						
 						return;
 					}
@@ -338,6 +342,25 @@ package ui
 				
 				sysApi.setData(ConfigEnum.POSITION, [ctn_main.x, ctn_main.y]);
 			}
+		}
+		
+		public function onRollOver(target:Object):void
+		{
+			switch (target)
+			{
+				default:
+					if (target.name.indexOf("tx_present") != -1)
+					{
+						uiApi.showTooltip(uiApi.textTooltipInfo("Clef disponible"), target, false, "standard", LocationEnum.POINT_BOTTOM, LocationEnum.POINT_TOP, 3, null, null, null, "TextInfo");
+					}
+					
+					break;
+			}
+		}
+		
+		public function onRollOut(target:Object):void
+		{
+			uiApi.hideTooltip();
 		}
 		
 		public function onKeyUp(target:Object, keyCode:uint):void
