@@ -7,12 +7,16 @@ package ui
 	import d2components.ButtonContainer;
 	import d2components.GraphicContainer;
 	import d2components.Grid;
+	import d2components.Input;
 	import d2data.ItemWrapper;
 	import d2enums.ComponentHookList;
+	import d2hooks.KeyUp;
 	import enums.AreaIdEnum;
 	import enums.ConfigEnum;
+	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
 	import utils.KeyUtils;
 	
 	/**
@@ -33,6 +37,8 @@ package ui
 		// Components
 		public var btn_close:ButtonContainer;
 		public var btn_config:ButtonContainer;
+		public var btn_resetSearch:ButtonContainer;
+		public var inp_search:Input;
 		public var grid_keys:Grid;
 		public var ctn_grid:GraphicContainer;
 		public var ctn_main:GraphicContainer;
@@ -50,6 +56,7 @@ package ui
 		private static const DEFAULT_AREA:int = -1;
 		
 		// Proterties
+		private var _searchTimer:Timer;
 		private var _ctn_empty:String;
 		private var _ctn_title:String;
 		private var _ctn_key:String;
@@ -63,6 +70,9 @@ package ui
 		
 		public function main(params:Object):void
 		{
+			_searchTimer = new Timer(500, 1);
+			_searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimeOut);
+			
 			_ctn_empty = uiApi.me().getConstant("emptyName");
 			_ctn_title = uiApi.me().getConstant("titleName");
 			_ctn_key = uiApi.me().getConstant("keyName");
@@ -82,13 +92,18 @@ package ui
 			
 			uiApi.addShortcutHook("closeUi", onShortcut);
 			
+			sysApi.addHook(KeyUp, onKeyUp);
+			
 			uiApi.addComponentHook(ctn_main, ComponentHookList.ON_PRESS);
 			uiApi.addComponentHook(btn_close, ComponentHookList.ON_PRESS);
 			uiApi.addComponentHook(btn_config, ComponentHookList.ON_PRESS);
+			uiApi.addComponentHook(btn_resetSearch, ComponentHookList.ON_PRESS);
+			uiApi.addComponentHook(inp_search, ComponentHookList.ON_PRESS);
 			
 			uiApi.addComponentHook(ctn_main, ComponentHookList.ON_RELEASE);
 			uiApi.addComponentHook(btn_close, ComponentHookList.ON_RELEASE);
 			uiApi.addComponentHook(btn_config, ComponentHookList.ON_RELEASE);
+			uiApi.addComponentHook(btn_resetSearch, ComponentHookList.ON_RELEASE);
 			
 			uiApi.addComponentHook(ctn_main, ComponentHookList.ON_RELEASE_OUTSIDE);
 		}
@@ -177,13 +192,16 @@ package ui
 		
 		public function unload():void
 		{
+			_searchTimer.removeEventListener(TimerEvent.TIMER_COMPLETE, onTimeOut);
+			_searchTimer.stop();
+			_searchTimer = null;
 		}
 		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Private Methods
 		//::////////////////////////////////////////////////////////////////////
 		
-		private function initGrid(keyring:ItemWrapper, keyringKeys:Dictionary, selectedAreaId:int = -1):void
+		private function initGrid(keyring:ItemWrapper, keyringKeys:Dictionary, selectedAreaId:int = -1, search:String = null):void
 		{
 			if (keyring == null)
 			{
@@ -194,13 +212,34 @@ package ui
 			}
 			
 			var displayedInfos:Array = [];
+			var keyId:String;
+			
+			// Select keys with search
+			if (selectedAreaId == -1 && search != null)
+			{
+				for (keyId in keyringKeys)
+				{
+					var name:String = dataApi.getItemWrapper(int(keyId)).name;
+					
+					if (name && name.toLowerCase().indexOf(search.toLowerCase()) != -1)
+					{
+						displayedInfos.push(new DisplayInfo(name, -1, keyringKeys[keyId]));
+					}
+				}
+				
+				grid_keys.dataProvider = displayedInfos;
+				
+				return;
+			}
+			
+			// Select keys with categories
 			for each (var areaId:int in KeyUtils.getDungeonAreas())
 			{
 				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? "Others" : dataApi.getArea(areaId).name, areaId));
 				
 				if (areaId == selectedAreaId)
 				{
-					for (var keyId:String in keyringKeys)
+					for (keyId in keyringKeys)
 					{
 						if (KeyUtils.getDungeonArea(int(keyId)) == areaId)
 						{
@@ -273,6 +312,12 @@ package ui
 					sysApi.setData(ConfigEnum.POSITION, [ctn_main.x, ctn_main.y]);
 					
 					break;
+				case btn_resetSearch:
+					inp_search.text = "";
+					
+					initGrid(_keyring, _keyringKeys, _selectedArea);
+					
+					break;
 				default:
 					if (target.name.indexOf("btn_title") != -1)
 					{
@@ -292,6 +337,27 @@ package ui
 				dragUiStop();
 				
 				sysApi.setData(ConfigEnum.POSITION, [ctn_main.x, ctn_main.y]);
+			}
+		}
+		
+		public function onKeyUp(target:Object, keyCode:uint):void
+		{
+			if (inp_search.haveFocus)
+			{
+				_searchTimer.reset();
+				_searchTimer.start();
+			}
+		}
+		
+		public function onTimeOut(event:TimerEvent):void
+		{
+			if (inp_search.text.length == 0)
+			{
+				initGrid(_keyring, _keyringKeys, _selectedArea);
+			}
+			else if (inp_search.text.length > 2)
+			{
+				initGrid(_keyring, _keyringKeys, -1, inp_search.text);
 			}
 		}
 	}

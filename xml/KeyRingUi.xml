@@ -41,35 +41,48 @@
 			<Size>
 				<AbsDimension x="400" y="37" />
 			</Size>
-			<!--<text>[ui.common.quests]</text>-->
+			
 			<text>Keyring manager</text>
 			<css>[local.css]title.css</css>
 		</Label>
-		
+
+		<!-- Search container -->
 		<Container name="ctn_search">
 			<Anchors>
 				<Anchor>
-					<AbsDimension x="20" y="60" />
+					<AbsDimension x="20" y="55" />
 				</Anchor>
 			</Anchors>
 
-			<Texture name="tx_bg_search">
+			<Texture name="tx_bgSearch">
 				<Size>
-					<AbsDimension x="440" y="30" />
+					<AbsDimension x="440" y="35" />
 				</Size>
 				
 				<uri>[local.assets]tx_blockBackground</uri>
 				<autoGrid>true</autoGrid>
 			</Texture>
 
-			<Texture>
+			<Label name="lb_titleSearch">
 				<Anchors> 
-					<Anchor>
-						<AbsDimension x="10" y="3" />
+					<Anchor relativeTo="tx_bgSearch">
+						<AbsDimension x="10" y="5" />
 					</Anchor>
 				</Anchors>
 				<Size>
-					<AbsDimension x="395" y="25" />
+					<AbsDimension x="130" y="20" />
+				</Size>
+				
+				<css>[local.css]normal.css</css>
+				<text>[ui.search.search]</text>
+			</Label>
+			
+			<Texture name="tx_bgInputSearch">
+				<Anchors> 
+					<Anchor relativeTo="lb_titleSearch" point="TOPLEFT" relativePoint="TOPRIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="260" y="25" />
 				</Size>
 				
 				<autoGrid>true</autoGrid>
@@ -78,29 +91,24 @@
 
 			<Input name="inp_search">
 				<Anchors> 
-					<Anchor>
-						<AbsDimension x="10" y="3" />
-					</Anchor>
+					<Anchor relativeTo="lb_titleSearch" point="TOPLEFT" relativePoint="TOPRIGHT" />
 				</Anchors>
 				<Size>
-					<AbsDimension x="395" y="25" />
+					<AbsDimension x="260" y="25" />
 				</Size>
 				
 				<css>[local.css]normal.css</css>
 			</Input>
-			 
-			 <iconButton name="btn_search">
+			
+			<iconButton name="btn_resetSearch">
 				<Anchors> 
-					<Anchor>
-						<AbsDimension x="405" y="3" />
-					</Anchor>
+					<Anchor relativeTo="inp_search" point="TOPLEFT" relativePoint="TOPRIGHT" />
 				</Anchors>
 				<Size>
 					<AbsDimension x="25" y="25" />
 				</Size>
-				
 				<checkBox>true</checkBox>
-				<uri>[local.assets]btn_recherche</uri>
+				<uri>[local.assets]btn_cross_square</uri>
 			</iconButton>
 		</Container>
 		
@@ -110,7 +118,7 @@
 				<Anchor relativeTo="ctn_search" point="TOPLEFT" relativePoint="BOTTOMLEFT" />
 			</Anchors>
 
-			<Texture name="tx_bg_grid">
+			<Texture name="tx_bgGrid">
 				<Size>
 					<AbsDimension x="440" y="240" />
 				</Size>
@@ -161,7 +169,7 @@
 										  y="30" />
 						</Size>
 						
-						<autoGrid>true</autoGrid>
+						<autoGrid>false</autoGrid>
 						<uri>[local.assets]tx_bgSubTitle</uri>
 					</iconButton>
 					
