@@ -136,7 +136,7 @@
 					<AbsDimension x="320" y="30" />
 				</Size>
 				<css>[local.css]normal.css</css>
-				<text>Nom</text>
+				<text>[ui.common.name]</text>
 				<verticalAlign>center</verticalAlign>
 			</Label>
 			
