@@ -11,6 +11,7 @@ package
 	import d2data.EffectInstanceInteger;
 	import d2data.Item;
 	import d2data.ItemWrapper;
+	import d2enums.LanguageEnum;
 	import d2hooks.InventoryContent;
 	import d2hooks.ObjectModified;
 	import d2hooks.OpeningContextMenu;
@@ -91,7 +92,7 @@ package
 		
 		private function init():void
 		{
-			_langManager = new LangManager(sysApi, fileApi);
+			_langManager = new LangManager(sysApi, fileApi, sysApi.getCurrentLanguage());
 			
 			_keyringInit = false;
 			_keyring = null;

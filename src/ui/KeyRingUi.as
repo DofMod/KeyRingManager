@@ -158,19 +158,19 @@ package ui
 					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.dataKey.time);
 					if (time > DAYTIME)
 					{
-						componentsRef.lb_time.text = (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME) + "jours";
+						componentsRef.lb_time.text = _langManager.getText(LangEnum.TIME_DAYS, (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME));
 					}
 					else if (time > HOURTIME)
 					{
-						componentsRef.lb_time.text = (((time - (time % HOURTIME)) + HOURTIME) / HOURTIME) + "heurs";
+						componentsRef.lb_time.text = _langManager.getText(LangEnum.TIME_HOURS, (((time - (time % HOURTIME)) + HOURTIME) / HOURTIME));
 					}
 					else if (time > MINUTETIME)
 					{
-						componentsRef.lb_time.text = (((time - (time % MINUTETIME)) + MINUTETIME) / MINUTETIME) + "minutes";
+						componentsRef.lb_time.text = _langManager.getText(LangEnum.TIME_MINUTES, (((time - (time % MINUTETIME)) + MINUTETIME) / MINUTETIME));
 					}
 					else
 					{
-						componentsRef.lb_time.text = (time % MINUTETIME) + "secondes";
+						componentsRef.lb_time.text = _langManager.getText(LangEnum.TIME_SECONDS, (time % MINUTETIME));
 					}
 			}
 		}
@@ -355,7 +355,7 @@ package ui
 				default:
 					if (target.name.indexOf("tx_present") != -1)
 					{
-						uiApi.showTooltip(uiApi.textTooltipInfo("Clef disponible"), target, false, "standard", LocationEnum.POINT_BOTTOM, LocationEnum.POINT_TOP, 3, null, null, null, "TextInfo");
+						uiApi.showTooltip(uiApi.textTooltipInfo(_langManager.getText(LangEnum.KEY_PRESENT)), target, false, "standard", LocationEnum.POINT_BOTTOM, LocationEnum.POINT_TOP, 3, null, null, null, "TextInfo");
 					}
 					
 					break;

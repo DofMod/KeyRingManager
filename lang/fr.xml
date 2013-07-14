@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
-	<other1>Autre1</other1>
 	<others>Autres</others>
-	<other2>Autre2</other2>
+	<keyPresent>Clef disponible</keyPresent>
+	<timeDays>#0 jours</timeDays>
+	<timeHours>#0 heurs</timeHours>
+	<timeMinutes>#0 minutes</timeMinutes>
+	<timeSeconds>#0 secondes</timeSeconds>
 </lang>
