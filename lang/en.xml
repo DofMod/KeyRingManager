@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang>
+	<others>Others</others>
+	<keyPresent>Available key</keyPresent>
+	<timeDays>#0 days</timeDays>
+	<timeHours>#0 hours</timeHours>
+	<timeMinutes>#0 minutes</timeMinutes>
+	<timeSeconds>#0 seconds</timeSeconds>
+</lang>
