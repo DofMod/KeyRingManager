@@ -14,10 +14,12 @@ package ui
 	import d2hooks.KeyUp;
 	import enums.AreaIdEnum;
 	import enums.ConfigEnum;
+	import enums.LangEnum;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
+	import managers.LangManager;
 	import utils.KeyUtils;
 	
 	/**
@@ -57,6 +59,7 @@ package ui
 		private static const DEFAULT_AREA:int = -1;
 		
 		// Proterties
+		private var _langManager:LangManager;
 		private var _searchTimer:Timer;
 		private var _ctn_empty:String;
 		private var _ctn_title:String;
@@ -78,6 +81,7 @@ package ui
 			_ctn_title = uiApi.me().getConstant("titleName");
 			_ctn_key = uiApi.me().getConstant("keyName");
 			
+			_langManager = params.langManager;
 			_keyring = params.keyring;
 			_keyringKeys = params.keyringKeys;
 			_selectedArea = DEFAULT_AREA;
@@ -239,7 +243,7 @@ package ui
 			// Select keys with categories
 			for each (var areaId:int in KeyUtils.getDungeonAreas())
 			{
-				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? "Others" : dataApi.getArea(areaId).name, areaId));
+				displayedInfos.push(new DisplayInfo(areaId == KeyUtils.NO_AREA ? _langManager.getText(LangEnum.OTHERS) : dataApi.getArea(areaId).name, areaId));
 				
 				if (areaId == selectedAreaId)
 				{

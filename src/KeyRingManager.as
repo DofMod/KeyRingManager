@@ -1,6 +1,7 @@
 package
 {
 	import d2api.DataApi;
+	import d2api.FileApi;
 	import d2api.StorageApi;
 	import d2api.SystemApi;
 	import d2api.TimeApi;
@@ -21,6 +22,7 @@ package
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
+	import managers.LangManager;
 	import types.DataKey;
 	import ui.KeyRingConfig;
 	import ui.KeyRingUi;
@@ -44,6 +46,7 @@ package
 		public var dataApi:DataApi;
 		public var timeApi:TimeApi;
 		public var storageApi:StorageApi;
+		public var fileApi:FileApi;
 		
 		// Modules
 		[Module(name="Ankama_ContextMenu")]
@@ -59,6 +62,7 @@ package
 		private static const OPEN_SHORTCUT:String = "openKeyringManager";
 		
 		// Properties
+		private var _langManager:LangManager;
 		private var _keyringInit:Boolean;
 		private var _keyring:ItemWrapper;
 		private var _keyringKeys:Dictionary;
@@ -87,6 +91,8 @@ package
 		
 		private function init():void
 		{
+			_langManager = new LangManager(sysApi, fileApi);
+			
 			_keyringInit = false;
 			_keyring = null;
 			_keyringKeys = new Dictionary();
@@ -126,6 +132,7 @@ package
 			if (uiApi.getUi(KEYRINGUI) == null)
 			{
 				var params:Object = new Object();
+				params.langManager = _langManager;
 				params.keyring = _keyring;
 				params.keyringKeys = _keyringKeys;
 				
