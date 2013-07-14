@@ -28,6 +28,7 @@ Installation:
 1. Create a new *KeyRingManager* folder in the *ui* folder present in your Dofus instalation folder. (i.e. *ui/KeyRingManager*)
 2. Copy the following files in this new folder:
     * xml/
+    * lang/
     * shortcuts.xml
     * KeyRingManager.swf
     * Relena_KeyRingManager.dm
