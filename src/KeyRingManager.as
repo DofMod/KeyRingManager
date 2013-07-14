@@ -102,7 +102,7 @@ package
 		{
 			var itemModule:* = null;
 			
-			for each (var item:*in data.content)
+			for each (var item:* in data.content)
 			{
 				if (getQualifiedClassName(item) == "contextMenu::ContextMenuItem")
 				{
