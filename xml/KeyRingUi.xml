@@ -191,14 +191,25 @@
 						<AbsDimension x="440" y="30" />
 					 </Size>
 
-					<Label name="lb_name">
+					 <Texture name="tx_key">
 						<Anchors>
 							<Anchor>
 								<AbsDimension x="10" y="0" />
 							</Anchor>
 						</Anchors>
 						<Size>
-							<AbsDimension x="335" y="30" />
+							<AbsDimension x="30" y="30" />
+						</Size>
+					</Texture>
+
+					<Label name="lb_name">
+						<Anchors>
+							<Anchor>
+								<AbsDimension x="45" y="0" />
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="300" y="30" />
 						</Size>
 						<css>[local.css]normal.css</css>
 					</Label>

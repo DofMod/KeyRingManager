@@ -295,7 +295,7 @@ package
 				// The key is unknow, save a new timestamp
 				if (dataKeySave == null)
 				{
-					dataKey = new DataKey(timestamp, false, keyFound);
+					dataKey = new DataKey(keyId, timestamp, false, keyFound);
 					
 					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
 					
@@ -305,7 +305,7 @@ package
 				}
 				else
 				{
-					dataKey = new DataKey(dataKeySave.time, dataKeySave.valid, dataKeySave.present);
+					dataKey = new DataKey(keyId, dataKeySave.time, dataKeySave.valid, dataKeySave.present);
 				}
 				
 				if (dataKey.present == true)

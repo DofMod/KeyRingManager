@@ -139,6 +139,8 @@ package ui
 				case _ctn_key:
 					componentsRef.lb_name.text = data.label;
 					
+					componentsRef.tx_key.uri = dataApi.getItemWrapper(data.dataKey.id).iconUri;
+					
 					if (data.dataKey.present == true)
 					{
 						componentsRef.tx_present.visible = true;
