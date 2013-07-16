@@ -5,8 +5,9 @@ By *Relena*
 
 Ce module à pour but d'augmenter la visibilité des clef du trousseau, en affichant leur date de réapparition.
 
-!["Interface du module"](http://img607.imageshack.us/img607/6034/image1lid.png "Interface du module")
-!["Interface du module sous le thème black"](http://img202.imageshack.us/img202/2544/image2td.png "Interface du module sous le thème black")
+!["Interface du module"](http://imageshack.us/a/img812/750/crp.png "Interface du module")
+
+!["Interface du module, utilisation du champ de recherche"](http://imageshack.us/a/img855/5485/6sc5.png "Interface du module, utilisation du champ de recherche")
 
 Une vidéo de présentation du module est visualisable sur la chaine Youtube [DofusModules](https://www.youtube.com/user/dofusModules "Youtube, DofusModules"):
 
