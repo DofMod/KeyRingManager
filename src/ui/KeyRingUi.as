@@ -12,7 +12,6 @@ package ui
 	import d2enums.ComponentHookList;
 	import d2enums.LocationEnum;
 	import d2hooks.KeyUp;
-	import enums.AreaIdEnum;
 	import enums.ConfigEnum;
 	import enums.LangEnum;
 	import flash.events.TimerEvent;
@@ -141,7 +140,7 @@ package ui
 					
 					componentsRef.tx_key.uri = dataApi.getItemWrapper(data.dataKey.id).iconUri;
 					
-					if (data.dataKey.present == true)
+					if (data.dataKey.isPresent)
 					{
 						componentsRef.tx_present.visible = true;
 						componentsRef.lb_time.visible = false;
@@ -155,9 +154,9 @@ package ui
 					componentsRef.tx_present.visible = false;
 					componentsRef.lb_time.visible = true;
 					
-					componentsRef.lb_time.cssClass = data.dataKey.valid ? "p0" : "p2";
+					componentsRef.lb_time.cssClass = data.dataKey.isDateReliable ? "p0" : "p2";
 					
-					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.dataKey.time);
+					var time:Number = WEEKTIME - (timeApi.getTimestamp() - data.dataKey.dateOfUse);
 					if (time > DAYTIME)
 					{
 						componentsRef.lb_time.text = _langManager.getText(LangEnum.TIME_DAYS, (((time - (time % DAYTIME)) + DAYTIME) / DAYTIME));
@@ -392,7 +391,6 @@ package ui
 	}
 }
 import types.DataKey;
-
 
 class DisplayInfo
 {

@@ -11,7 +11,6 @@ package
 	import d2data.EffectInstanceInteger;
 	import d2data.Item;
 	import d2data.ItemWrapper;
-	import d2enums.LanguageEnum;
 	import d2hooks.InventoryContent;
 	import d2hooks.ObjectModified;
 	import d2hooks.OpeningContextMenu;
@@ -192,28 +191,29 @@ package
 			for (var idString:String in _keyringKeys)
 			{
 				var keyFound:Boolean = (keysOnRing[int(idString)] == true);
+				var dataKey:DataKey = _keyringKeys[idString] as DataKey;
 				
-				if (keyFound == true)
+				if (keyFound)
 				{
-					if (_keyringKeys[idString].present == false)
+					if (dataKey.isPresent == false)
 					{
-						_keyringKeys[idString].time += WEEKTIME;
-						_keyringKeys[idString].valid = true;
-						_keyringKeys[idString].present = true;
+						dataKey.dateOfUse += WEEKTIME;
+						dataKey.isDateReliable = true;
+						dataKey.isPresent = true;
 						
-						sysApi.setData(CONFIG_PREFIX + idString, _keyringKeys[idString]);
+						sysApi.setData(CONFIG_PREFIX + idString, dataKey);
 					}
 					
 					continue;
 				}
 				
-				if (_keyringKeys[idString].present == true)
+				if (dataKey.isPresent)
 				{
-					_keyringKeys[idString].time = timeApi.getTimestamp();
-					_keyringKeys[idString].valid = true;
-					_keyringKeys[idString].present = false;
+					dataKey.dateOfUse = timeApi.getTimestamp();
+					dataKey.isDateReliable = true;
+					dataKey.isPresent = false;
 					
-					sysApi.setData(CONFIG_PREFIX + idString, _keyringKeys[idString]);
+					sysApi.setData(CONFIG_PREFIX + idString, dataKey);
 				}
 			}
 		}
@@ -292,16 +292,16 @@ package
 				}
 				else
 				{
-					dataKey = new DataKey(keyId, dataKeySave.time, dataKeySave.valid, dataKeySave.present);
+					dataKey = new DataKey(keyId, dataKeySave.dateOfUse, dataKeySave.isDateReliable, dataKeySave.isPresent);
 				}
 				
-				if (dataKey.present == true)
+				if (dataKey.isPresent)
 				{
 					if (keyFound == false)
 					{
-						dataKey.time = timestamp;
-						dataKey.valid = false;
-						dataKey.present = false;
+						dataKey.dateOfUse = timestamp;
+						dataKey.isDateReliable = false;
+						dataKey.isPresent = false;
 						
 						sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
 					}
@@ -313,24 +313,24 @@ package
 				
 				if (keyFound == true)
 				{
-					if (dataKey.valid == true)
+					if (dataKey.isDateReliable)
 					{
-						dataKey.time += WEEKTIME;
+						dataKey.dateOfUse += WEEKTIME;
 					}
 					else
 					{
-						dataKey.time == timestamp;
+						dataKey.dateOfUse == timestamp;
 					}
 					
-					dataKey.present = true;
+					dataKey.isPresent = true;
 					
 					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
 				}
-				else if (dataKey.time + WEEKTIME < timestamp)
+				else if (dataKey.dateOfUse + WEEKTIME < timestamp)
 				{
-					dataKey.time = timestamp;
-					dataKey.valid = false;
-					dataKey.present = false;
+					dataKey.dateOfUse = timestamp;
+					dataKey.isDateReliable = false;
+					dataKey.isPresent = false;
 					
 					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
 				}
