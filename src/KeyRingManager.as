@@ -188,11 +188,11 @@ package
 				keysOnRing[(effect as EffectInstanceInteger).value] = (effect.effectId == EffectIdEnum.KEY);
 			}
 			
-			for (var idString:String in _keyringKeys)
+			for (var keyId:String in _keyringKeys)
 			{
-				var keyFound:Boolean = (keysOnRing[int(idString)] == true);
-				var dataKey:DataKey = _keyringKeys[idString] as DataKey;
-				var dataKeySaveId:String = CONFIG_PREFIX + idString;
+				var keyFound:Boolean = (keysOnRing[int(keyId)] == true);
+				var dataKey:DataKey = _keyringKeys[keyId] as DataKey;
+				var dataKeySaveId:String = CONFIG_PREFIX + keyId;
 				
 				if (keyFound)
 				{
