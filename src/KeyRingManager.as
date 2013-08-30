@@ -192,6 +192,7 @@ package
 			{
 				var keyFound:Boolean = (keysOnRing[int(idString)] == true);
 				var dataKey:DataKey = _keyringKeys[idString] as DataKey;
+				var dataKeySaveId:String = CONFIG_PREFIX + idString;
 				
 				if (keyFound)
 				{
@@ -201,7 +202,7 @@ package
 						dataKey.isDateReliable = true;
 						dataKey.isPresent = true;
 						
-						sysApi.setData(CONFIG_PREFIX + idString, dataKey);
+						sysApi.setData(dataKeySaveId, dataKey);
 					}
 					
 					continue;
@@ -213,7 +214,7 @@ package
 					dataKey.isDateReliable = true;
 					dataKey.isPresent = false;
 					
-					sysApi.setData(CONFIG_PREFIX + idString, dataKey);
+					sysApi.setData(dataKeySaveId, dataKey);
 				}
 			}
 		}
@@ -276,15 +277,16 @@ package
 				}
 				
 				var keyFound:Boolean = (keysOnRing[keyId] == true);
+				var dataKeySaveId:String = CONFIG_PREFIX + keyId;
 				
-				dataKeySave = sysApi.getData(CONFIG_PREFIX + keyId);
+				dataKeySave = sysApi.getData(dataKeySaveId);
 				
 				// The key is unknow, save a new timestamp
 				if (dataKeySave == null)
 				{
 					dataKey = new DataKey(keyId, timestamp, keyFound, false);
 					
-					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+					sysApi.setData(dataKeySaveId, dataKey);
 					
 					_keyringKeys[keyId] = dataKey;
 					
@@ -303,7 +305,7 @@ package
 						dataKey.isDateReliable = false;
 						dataKey.isPresent = false;
 						
-						sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+						sysApi.setData(dataKeySaveId, dataKey);
 					}
 					
 					_keyringKeys[keyId] = dataKey;
@@ -315,7 +317,7 @@ package
 				{
 					dataKey.isPresent = true;
 					
-					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+					sysApi.setData(dataKeySaveId, dataKey);
 				}
 				else if (dataKey.dateOfUse + WEEKTIME < timestamp)
 				{
@@ -323,7 +325,7 @@ package
 					dataKey.isDateReliable = false;
 					dataKey.isPresent = false;
 					
-					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
+					sysApi.setData(dataKeySaveId, dataKey);
 				}
 				
 				_keyringKeys[keyId] = dataKey;
