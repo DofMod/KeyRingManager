@@ -2,6 +2,8 @@ package ui
 {
 	import d2api.SystemApi;
 	import d2api.UiApi;
+	import d2components.ButtonContainer;
+	import d2enums.ComponentHookList;
 	
 	/**
 	 * @author Relena
@@ -17,10 +19,9 @@ package ui
 		public var uiApi : UiApi;
 		
 		// Components
-		//public var btn_close : ButtonContainer;
+		public var btn_reset:ButtonContainer;
 		
 		// Constants
-		//private static const MINUTETIME : Number = 1000 * 60;
 		
 		// Proterties
 		
@@ -30,6 +31,7 @@ package ui
 		
 		public function main(params:Object) : void
 		{
+			uiApi.addComponentHook(btn_reset, ComponentHookList.ON_RELEASE);
 		}
 		
 		public function unload() : void
@@ -43,5 +45,17 @@ package ui
 		//::////////////////////////////////////////////////////////////////////
 		//::// Events
 		//::////////////////////////////////////////////////////////////////////
+		
+		public function onRelease(target:Object):void
+		{
+			switch(target)
+			{
+				case btn_reset:
+					// Reset data
+					sysApi.log(8, "Data reset.");
+					
+					break;
+			}
+		}
 	}
 }
