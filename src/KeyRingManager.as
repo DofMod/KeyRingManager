@@ -313,15 +313,6 @@ package
 				
 				if (keyFound == true)
 				{
-					if (dataKey.isDateReliable)
-					{
-						dataKey.dateOfUse += WEEKTIME;
-					}
-					else
-					{
-						dataKey.dateOfUse == timestamp;
-					}
-					
 					dataKey.isPresent = true;
 					
 					sysApi.setData(CONFIG_PREFIX + keyId, dataKey);
