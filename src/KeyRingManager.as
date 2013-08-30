@@ -181,23 +181,15 @@ package
 				return;
 			}
 			
+			var keysOnRing:Array = [];
+			for each (var effect:EffectInstance in item.effects)
+			{
+				keysOnRing[(effect as EffectInstanceInteger).value] = (effect.effectId == EffectIdEnum.KEY);
+			}
+			
 			for (var idString:String in _keyringKeys)
 			{
-				var id:int = int(idString);
-				
-				var keyFound:Boolean = false;
-				for each (var effect:EffectInstance in item.effects)
-				{
-					if (effect.effectId == EffectIdEnum.KEY)
-					{
-						if ((effect as EffectInstanceInteger).value == id)
-						{
-							keyFound = true;
-							
-							break;
-						}
-					}
-				}
+				var keyFound:Boolean = (keysOnRing[int(idString)] == true);
 				
 				if (keyFound == true)
 				{
@@ -269,6 +261,12 @@ package
 			var dataKey:DataKey = null;
 			var dataKeySave:Object = null;
 			
+			var keysOnRing:Array = [];
+			for each (var effect:EffectInstance in _keyring.effects)
+			{
+				keysOnRing[(effect as EffectInstanceInteger).value] = (effect.effectId == EffectIdEnum.KEY);
+			}
+			
 			for each (var keyId:int in keysId)
 			{
 				if (KeyUtils.cantBeOnKeyring(keyId))
@@ -276,19 +274,7 @@ package
 					continue;
 				}
 				
-				var keyFound:Boolean = false;
-				for each (var effect:EffectInstance in _keyring.effects)
-				{
-					if (effect.effectId == EffectIdEnum.KEY)
-					{
-						if ((effect as EffectInstanceInteger).value == keyId)
-						{
-							keyFound = true;
-							
-							break;
-						}
-					}
-				}
+				var keyFound:Boolean = (keysOnRing[keyId] == true);
 				
 				dataKeySave = sysApi.getData(CONFIG_PREFIX + keyId);
 				
