@@ -67,6 +67,7 @@ package
 		private var _keyringInit:Boolean;
 		private var _keyring:ItemWrapper;
 		private var _keyringKeys:Dictionary;
+		private var _keysId:Object;
 		
 		//::////////////////////////////////////////////////////////////////////
 		//::// Public Methods
@@ -97,6 +98,7 @@ package
 			_keyringInit = false;
 			_keyring = null;
 			_keyringKeys = new Dictionary();
+			_keysId = dataApi.queryEquals(Item, "typeId", ItemTypeIdEnum.KEY);	
 		}
 		
 		private function appToItemModule(data:ContextMenuData, ... items):void
@@ -255,8 +257,7 @@ package
 			}
 			
 			_keyringInit = true;
-			
-			var keysId:Object = dataApi.queryEquals(Item, "typeId", ItemTypeIdEnum.KEY);
+					
 			var timestamp:Number = timeApi.getTimestamp();
 			var dataKey:DataKey = null;
 			var dataKeySave:Object = null;
@@ -267,7 +268,7 @@ package
 				keysOnRing[(effect as EffectInstanceInteger).value] = (effect.effectId == EffectIdEnum.KEY);
 			}
 			
-			for each (var keyId:int in keysId)
+			for each (var keyId:int in _keysId)
 			{
 				if (KeyUtils.cantBeOnKeyring(keyId))
 				{
