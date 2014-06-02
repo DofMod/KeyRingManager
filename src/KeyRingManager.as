@@ -294,7 +294,7 @@ package
 				}
 				else
 				{
-					dataKey = new DataKey(keyId, dataKeySave.dateOfUse, dataKeySave.isDateReliable, dataKeySave.isPresent);
+					dataKey = new DataKey(keyId, dataKeySave.dateOfUse, dataKeySave.isPresent, dataKeySave.isDateReliable);
 				}
 				
 				if (dataKey.isPresent)
