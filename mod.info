@@ -1,0 +1,13 @@
+[
+{
+    "name": "${name}",
+    "author": "${author}",
+    "contributos": ${contributors},
+    "url": "https://github.com/DofMod/${name}/releases/download/${tag}/${filename}.zip",
+    "description": "A new interface to manage the 'Bunch of keys'",
+    "category": "GUI",
+    "version": "${version}",
+    "dofusVersion": "${dofusVersion}",
+    "lastUpdateDate": "${date}"
+}
+]

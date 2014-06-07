@@ -1,7 +1,4 @@
 obj/
-demo/
-*.lnk
-*.py
 *.as3proj
 *.lxml
 KeyRingManager.swf
