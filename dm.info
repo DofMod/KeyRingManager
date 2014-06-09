@@ -1,0 +1,20 @@
+<?xml version="1.0" ?><module>
+
+	<header>
+		<name>${name}</name>
+		<version>${version}</version>
+		<dofusVersion>${dofusVersion}</dofusVersion>
+		<author>${author}</author>
+		<shortDescription>${descriptionShort}</shortDescription>
+		<description>${description}</description>
+	</header>
+
+	<!-- Liste des interfaces du module, avec nom de l'interface, nom du fichier squelette .xml et nom de la classe script d'interface -->
+	<uis>
+		<ui class="ui::KeyRingUi" file="xml/KeyRingUi.xml" name="keyringui"/>
+		<ui class="ui::KeyRingConfig" file="xml/KeyRingConfig.xml" name="keyringconfig"/>
+	</uis>
+
+	<shortcuts>shortcuts.xml</shortcuts>
+	<script>${name}.swf</script>
+</module>
